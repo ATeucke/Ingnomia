@@ -11,12 +11,13 @@ project(Ingnomia
 find_package(Qt5 REQUIRED QUIET COMPONENTS Core Xml Sql OpenGL Network)
 
 # Roots of libraries that don't use the standard directories
-set(NOESIS_ROOT "" CACHE PATH "Root to the NoesisGui sdk")
-set(STEAM_SDK_ROOT "" CACHE PATH "Root to the steam sdk")
+set(NOESIS_ROOT "C:/Dev/NoesisGUI-NativeSDK-win-3.0.4" CACHE PATH "C:/Dev/NoesisGUI-NativeSDK-win-3.0.4")
+set(STEAM_SDK_ROOT "C:/Dev/steamworks_sdk_149/sdk" CACHE PATH "C:/Dev/steamworks_sdk_149/sdk")
 
+ 
 # Noesis license
-set(NOESIS_LICENSE_NAME "" CACHE STRING "Name")
-set(NOESIS_LICENSE_KEY "" CACHE STRING "Key")
+set(NOESIS_LICENSE_NAME "AndreasTeucke" CACHE STRING "AndreasTeucke")
+set(NOESIS_LICENSE_KEY "i5QPut7cD7p6OpCo3Kb5kJcGZsa+m3pg+mMokBZPPJhhw0af" CACHE STRING "i5QPut7cD7p6OpCo3Kb5kJcGZsa+m3pg+mMokBZPPJhhw0af")
 
 # Without this, paths are not relative in the sources list
 cmake_policy(SET CMP0076 NEW)
@@ -68,7 +69,7 @@ if(WIN32)
 			${PROJECT_NAME}.rc
 			${PROJECT_NAME}.ico
 			${PROJECT_NAME}.manifest
-	)
+	 "src/gfx/spriteDefinition.cpp" "src/gfx/randomness.h" "src/gfx/randomness.cpp")
 endif()
 
 target_sources(${PROJECT_NAME}
