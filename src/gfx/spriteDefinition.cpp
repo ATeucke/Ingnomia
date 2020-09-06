@@ -21,6 +21,8 @@ SpriteDefinition::~SpriteDefinition()
 {
 }
 
+/******************************** BaseSpriteDefinition  ********************************************/
+
 BaseSpriteDefinition::BaseSpriteDefinition( SDID sID,QString tilesheet, char xOffset, char yOffset ) :
 	SpriteDefinition(sID)
 {
@@ -51,40 +53,73 @@ Sprite* BaseSpriteDefinition::createSprite( QStringList materialSID, Randomness*
 
 Randomness* BaseSpriteDefinition::createRandomness( QStringList materialIDs )
 {
-	return NULL;
+	return &NoRandomness();
 }
 
-SeasonSpriteDefinition::SeasonSpriteDefinition( SDID sID ) :
+
+/******************************** BranchingSpriteDefinition  ********************************************/
+
+BranchingSpriteDefinition::BranchingSpriteDefinition( SDID sID ) :
 	SpriteDefinition( sID )
 {
 }
 
-SeasonSpriteDefinition::SeasonSpriteDefinition( const SeasonSpriteDefinition& other ) :
+BranchingSpriteDefinition::BranchingSpriteDefinition( const BranchingSpriteDefinition& other ) :
 	SpriteDefinition( other )
+{
+	m_sprites = other.m_sprites;
+}
+
+BranchingSpriteDefinition::~BranchingSpriteDefinition()
 {
 }
 
-SeasonSpriteDefinition::~SeasonSpriteDefinition()
+Randomness* BranchingSpriteDefinition::createRandomness( QStringList materialIDs )
+{
+	BranchRandomness* r = new BranchRandomness();
+	for ( int i = 0; i < m_sprites.size(); i++ )
+	{
+		Randomness* rSub = m_sprites.values().at( i )->createRandomness( materialIDs );
+		r->m_randomness.insert( i, rSub );
+	}
+	return r;
+}
+
+/******************************** SeasonSpriteDefinition  ********************************************/
+
+SeasonSpriteDefinition::SeasonSpriteDefinition( SDID sID ) :
+	BranchingSpriteDefinition( sID )
+{
+}
+
+SeasonSpriteDefinition::SeasonSpriteDefinition( const SeasonSpriteDefinition& other ) :
+	BranchingSpriteDefinition( other )
+{
+}
+
+SeasonSpriteDefinition::~SeasonSpriteDefinition() 
 {
 }
 
 Sprite* SeasonSpriteDefinition::createSprite( QStringList materialSID, Randomness* random )
 {
 	SpriteSeasons* ss = new SpriteSeasons;
-	for ( auto key : m_seasons.keys() )
+	for ( auto key : m_sprites.keys() )
 	{
-		ss->m_sprites.insert( key, m_seasons.value( key )->createSprite( materialSID, random ) );
+		ss->m_sprites.insert( key, m_sprites.value( key )->createSprite( materialSID, random ) );
 	}
 	return ss;
 }
 
+/******************************** RotationSpriteDefinition  ********************************************/
+
 RotationSpriteDefinition::RotationSpriteDefinition( SDID sID ) :
-	SpriteDefinition( sID )
+	BranchingSpriteDefinition( sID )
 {
 }
 
 RotationSpriteDefinition::RotationSpriteDefinition( const RotationSpriteDefinition& other ) :
-	SpriteDefinition( other )
+	BranchingSpriteDefinition( other )
 {
 }
 
@@ -96,21 +131,24 @@ Sprite* RotationSpriteDefinition::createSprite( QStringList materialSID, Randomn
 {
 	SpriteRotations* sr = new SpriteRotations;
 
-	sr->m_sprites.push_back( m_rotations.value( "FR" )->createSprite( materialSID, random ) );
-	sr->m_sprites.push_back( m_rotations.value( "FL" )->createSprite( materialSID, random ) );
-	sr->m_sprites.push_back( m_rotations.value( "BL" )->createSprite( materialSID, random ) );
-	sr->m_sprites.push_back( m_rotations.value( "BR" )->createSprite( materialSID, random ) );
+	sr->m_sprites.push_back( m_sprites.value( "FR" )->createSprite( materialSID, random ) );
+	sr->m_sprites.push_back( m_sprites.value( "FL" )->createSprite( materialSID, random ) );
+	sr->m_sprites.push_back( m_sprites.value( "BL" )->createSprite( materialSID, random ) );
+	sr->m_sprites.push_back( m_sprites.value( "BR" )->createSprite( materialSID, random ) );
 
 	return sr;
 }
 
+
+/******************************** FramesSpriteDefinition  ********************************************/
+
 FramesSpriteDefinition::FramesSpriteDefinition( SDID sID ) :
-	SpriteDefinition( sID )
+	BranchingSpriteDefinition( sID )
 {
 }
 
 FramesSpriteDefinition::FramesSpriteDefinition( const FramesSpriteDefinition& other ) :
-	SpriteDefinition( other )
+	BranchingSpriteDefinition( other )
 {
 }
 
@@ -121,53 +159,79 @@ FramesSpriteDefinition::~FramesSpriteDefinition()
 Sprite* FramesSpriteDefinition::createSprite( QStringList materialSID, Randomness* random )
 {
 	SpriteFrames* sf = new SpriteFrames;
-	for ( auto child : m_frames )
+	for ( auto child : m_sprites )
 	{
 		sf->m_sprites.push_back( child->createSprite( materialSID, random ) );
 	}
 	return sf;
 }
 
-RandomSpriteDefinition::RandomSpriteDefinition( SDID sID ) :
-	SpriteDefinition( sID )
+
+/******************************** MaterialSpriteDefinition  ********************************************/
+
+MaterialSpriteDefinition::MaterialSpriteDefinition( SDID sID, int position ) :
+	BranchingSpriteDefinition( sID )
+{
+	m_type = "ByMaterials";
+	m_position = position;
+}
+
+MaterialSpriteDefinition::MaterialSpriteDefinition( const MaterialSpriteDefinition& other ) :
+	BranchingSpriteDefinition( other )
 {
 }
 
-RandomSpriteDefinition::RandomSpriteDefinition( const RandomSpriteDefinition& other ) :
-	SpriteDefinition( other )
+MaterialSpriteDefinition::~MaterialSpriteDefinition()
 {
 }
 
-RandomSpriteDefinition::~RandomSpriteDefinition()
+Sprite* MaterialSpriteDefinition::createSprite( QStringList materialIDs, Randomness* random )
+{
+	QString material = materialIDs.at( m_position );
+	return m_sprites.value( material )->createSprite( materialIDs, random );
+}
+
+Randomness* MaterialSpriteDefinition::createRandomness( QStringList materialIDs )
+{
+	QString material = materialIDs.at( m_position );
+	return m_sprites.value( material )->createRandomness( materialIDs );
+}
+
+/******************************** TypeSpriteDefinition  ********************************************/
+
+TypeSpriteDefinition::TypeSpriteDefinition( SDID sID, int position, QMap<QString, QString> materialTypes ) :
+	BranchingSpriteDefinition( sID )
+{
+	m_type     = "ByTypes";
+	m_position = position;
+	m_materialTypes = materialTypes;
+}
+
+TypeSpriteDefinition::TypeSpriteDefinition( const TypeSpriteDefinition& other ) :
+	BranchingSpriteDefinition( other )
 {
 }
 
-Sprite* RandomSpriteDefinition::createSprite( QStringList materialSID, Randomness* random )
+TypeSpriteDefinition::~TypeSpriteDefinition()
 {
-	int randomNumber = random->m_random;
-	Randomness* randomS = random->m_randomness.value( randomNumber );
-	return m_sprites.at( randomNumber )->createSprite( materialSID, randomS );
 }
 
-Randomness* RandomSpriteDefinition::createRandomness( QStringList materialIDs )
+Sprite* TypeSpriteDefinition::createSprite( QStringList materialIDs, Randomness* random )
 {
-
-	int sum   = m_sum;
-	int ran   = rand() % sum;
-	int total = 0;
-	for ( int i = 0; i < m_weights.size(); ++i )
-	{
-		total += m_weights[i];
-		if ( ran < total )
-		{
-			Randomness random = Randomness( i );
-			Randomness* subRand = m_sprites.at( i )->createRandomness( materialIDs );
-			random.m_randomness = subRand->;
-			break;
-		}
-	}
-
+	QString material = materialIDs.at( m_position );
+	QString type     = m_materialTypes.value( material );
+	return m_sprites.value( type )->createSprite( materialIDs, random );
 }
+
+Randomness* TypeSpriteDefinition::createRandomness( QStringList materialIDs )
+{
+	QString material = materialIDs.at( m_position );
+	QString type     = m_materialTypes.value( material );
+	return m_sprites.value( type )->createRandomness( materialIDs );
+}
+
+
+/******************************** CombineSpriteDefinition  ********************************************/
 
 CombineSpriteDefinition::CombineSpriteDefinition( SDID sID ) :
 	SpriteDefinition( sID )
@@ -190,75 +254,105 @@ Sprite* CombineSpriteDefinition::createSprite( QStringList materialSID, Randomne
 	for ( int i = 1; i < m_sprites.size(); ++i )
 	{
 		Sprite* s2 = m_sprites.at( i )->createSprite( materialSID, random );
-		s->combine( s2 ,"",0,0); //TODO new combine
+		s->combine( s2, "", 0, 0 ); //TODO new combine
 	}
 	return s;
 }
 
-TypeSpriteDefinition::TypeSpriteDefinition( SDID sID ) :
+Randomness* CombineSpriteDefinition::createRandomness( QStringList materialIDs )
+{
+	BranchRandomness* r = new BranchRandomness();
+	for ( int i = 0; i < m_sprites.size(); i++ )
+	{
+		Randomness* rSub = m_sprites.at( i )->createRandomness( materialIDs );
+		r->m_randomness.insert( i, rSub );
+	}
+	return r;
+}
+
+
+
+/******************************** RandomSpriteDefinition  ********************************************/
+
+RandomSpriteDefinition::RandomSpriteDefinition( SDID sID ) :
 	SpriteDefinition( sID )
 {
 }
 
-TypeSpriteDefinition::TypeSpriteDefinition( const TypeSpriteDefinition& other ) :
+RandomSpriteDefinition::RandomSpriteDefinition( const RandomSpriteDefinition& other ) :
 	SpriteDefinition( other )
 {
-}
+} 
 
-TypeSpriteDefinition::~TypeSpriteDefinition()
+RandomSpriteDefinition::~RandomSpriteDefinition()
 {
 }
 
-MaterialSpriteDefinition::MaterialSpriteDefinition( SDID sID ) :
-	SpriteDefinition( sID )
+Sprite* RandomSpriteDefinition::createSprite( QStringList materialSID, Randomness* random )
 {
-	m_type = "ByMaterials";
+	int randomNumber    = random->getRandom();
+	Randomness* randomS = random->getRandomness( randomNumber );
+	return m_sprites.at( randomNumber )->createSprite( materialSID, randomS );
 }
 
-MaterialSpriteDefinition::MaterialSpriteDefinition( const MaterialSpriteDefinition& other ) :
-	SpriteDefinition( other )
-{
-}
-
-MaterialSpriteDefinition::~MaterialSpriteDefinition()
-{
-}
-
-Sprite* MaterialSpriteDefinition::createSprite( QStringList materialSID, Randomness* random )
+Randomness* RandomSpriteDefinition::createRandomness( QStringList materialIDs )
 {
 
-	return nullptr;
+	int sum   = m_sum;
+	int ran   = rand() % sum;
+	int total = 0;
+	for ( int i = 0; i < m_weights.size(); ++i )
+	{
+		total += m_weights[i];
+		if ( ran < total )
+		{
+			Randomness* subRand = m_sprites.at( i )->createRandomness( materialIDs );
+			return new RandomRandomness( i, subRand );
+		}
+	}
 }
 
-EffectSpriteDefinition::EffectSpriteDefinition( SDID sID, SDID spriteDef ) :
+/******************************** EffectSpriteDefinition  ********************************************/
+
+LinearSpriteDefinition::LinearSpriteDefinition( SDID sID, SpriteDefinition* spriteDef ) :
 	SpriteDefinition( sID )
 {
 	m_spriteDef = spriteDef;
 }
 
-EffectSpriteDefinition::EffectSpriteDefinition( const EffectSpriteDefinition& other ) :
+LinearSpriteDefinition::LinearSpriteDefinition( const LinearSpriteDefinition& other ) :
 	SpriteDefinition( other )
 {
 }
 
-EffectSpriteDefinition::~EffectSpriteDefinition()
+LinearSpriteDefinition::~LinearSpriteDefinition()
 {
 }
 
-TintSpriteDefinition::TintSpriteDefinition( SDID sID, SDID spriteDef, QString tint ) :
-	EffectSpriteDefinition( sID, spriteDef )
+Randomness* LinearSpriteDefinition::createRandomness( QStringList materialIDs )
 {
-	m_tint = tint;
+	return m_spriteDef->createRandomness( materialIDs );
 }
 
-TintSpriteDefinition::TintSpriteDefinition( SDID sID, SDID spriteDef, int material ) :
-	EffectSpriteDefinition( sID, spriteDef )
+
+/******************************** TintSpriteDefinition  ********************************************/
+
+TintSpriteDefinition::TintSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, QString tint ) :
+	LinearSpriteDefinition( sID, spriteDef )
 {
-	//TODO
+	m_tint     = tint;
+	m_material = -1;
+}
+
+TintSpriteDefinition::TintSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, int material ) :
+	LinearSpriteDefinition( sID, spriteDef )
+{
+	m_tint     = "Material";
+	m_material = material;
 }
 
 TintSpriteDefinition::TintSpriteDefinition( const TintSpriteDefinition& other ) :
-	EffectSpriteDefinition( other )
+	LinearSpriteDefinition( other )
 {
 }
 
@@ -266,62 +360,40 @@ TintSpriteDefinition::~TintSpriteDefinition()
 {
 }
 
-FlipSpriteDefinition::FlipSpriteDefinition( SDID sID, SDID spriteDef, QString effect ) :
-	EffectSpriteDefinition( sID, spriteDef )
+Sprite* TintSpriteDefinition::createSprite( QStringList materialIDs, Randomness* random )
+{
+	Sprite* sprite = m_spriteDef->createSprite( materialIDs, random );
+	if ( m_material >= 0 ) {
+		QString material = materialIDs.at( m_material );
+		sprite->applyTint(m_tint,material);
+	} else {
+		sprite->applyTint( m_tint, NULL );
+	}
+	return sprite;
+}
+
+
+/******************************** EffectSpriteDefinition  ********************************************/
+
+EffectSpriteDefinition::EffectSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, QString effect ) :
+	LinearSpriteDefinition( sID, spriteDef )
 {
 	m_effect = effect;
 }
 
-FlipSpriteDefinition::FlipSpriteDefinition( const FlipSpriteDefinition& other ) :
-	EffectSpriteDefinition( other )
+EffectSpriteDefinition::EffectSpriteDefinition( const EffectSpriteDefinition& other ) :
+	LinearSpriteDefinition( other )
+{
+	m_effect = other.m_effect;
+}
+
+EffectSpriteDefinition::~EffectSpriteDefinition()
 {
 }
 
-FlipSpriteDefinition::~FlipSpriteDefinition()
+Sprite* EffectSpriteDefinition::createSprite( QStringList materialIDs, Randomness* random )
 {
+	Sprite* sprite = m_spriteDef->createSprite( materialIDs, random );
+	sprite->applyEffect( m_effect );
+	return sprite;
 }
-
-RotateSpriteDefinition::RotateSpriteDefinition( SDID sID, SDID spriteDef ) :
-	EffectSpriteDefinition( sID, spriteDef )
-{
-}
-
-RotateSpriteDefinition::RotateSpriteDefinition( const RotateSpriteDefinition& other ) :
-	EffectSpriteDefinition( other )
-{
-}
-
-RotateSpriteDefinition::~RotateSpriteDefinition()
-{
-}
-
-
-MapSpriteDefinition::MapSpriteDefinition( SDID sID ) :
-	SpriteDefinition( sID )
-{
-}
-
-MapSpriteDefinition::MapSpriteDefinition( const MapSpriteDefinition& other ) :
-	SpriteDefinition( other )
-{
-	m_sprites = other.m_sprites;
-}
-
-MapSpriteDefinition::~MapSpriteDefinition()
-{
-}
-
-Randomness* MapSpriteDefinition::createRandomness( QStringList materialIDs )
-{
-	Randomness r =  Randomness();
-	for ( int i =0 ; i < m_sprites.size(); i++ )
-	{
-		Randomness* rSub = m_sprites.values().at(i)->createRandomness( materialIDs );
-		if (rSub)
-		{
-			r.m_randomness.insert( i, rSub );
-		}
-	}
-	return &r;
-}
-

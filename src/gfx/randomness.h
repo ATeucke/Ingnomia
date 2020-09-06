@@ -37,3 +37,16 @@ public:
 
 	QMap<int, Randomness*> m_randomness;
 };
+
+
+class NoRandomness : public Randomness
+{
+public:
+	NoRandomness();
+	virtual ~NoRandomness();
+
+	int getRandom();
+	Randomness* getRandomness( int n );
+
+	QMap<int, Randomness*> m_randomness;
+};

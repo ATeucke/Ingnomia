@@ -51,3 +51,21 @@ Randomness* BranchRandomness::getRandomness( int n )
 {
 	return m_randomness.value( n );
 }
+
+NoRandomness::NoRandomness()
+{
+}
+
+NoRandomness::~NoRandomness()
+{
+}
+
+int NoRandomness::getRandom()
+{
+	return -1;
+}
+
+Randomness* NoRandomness::getRandomness( int n )
+{
+	return this;
+}
