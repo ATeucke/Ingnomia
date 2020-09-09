@@ -34,8 +34,7 @@ public:
 	SpriteDefinition( const SpriteDefinition& other );
 	virtual ~SpriteDefinition();
 
-	virtual Sprite* createSprite( QStringList materialSID, Randomness* random ) = 0;
-	virtual Randomness* createRandomness( QStringList materialIDs ) = 0;
+	virtual Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random ) = 0;
 
 	unsigned int uID = 0;
 	SDID m_sID       = "";
@@ -49,8 +48,7 @@ public:
 	BaseSpriteDefinition( const BaseSpriteDefinition& other );
 	~BaseSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random ) ;
-	Randomness* createRandomness( QStringList materialIDs );
+	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random ) ;
 
 	char m_xOffset = 0;
 	char m_yOffset = 0;
@@ -62,12 +60,11 @@ public:
 class BranchingSpriteDefinition : public SpriteDefinition
 {
 public:
-	BranchingSpriteDefinition( SDID sID );
+	BranchingSpriteDefinition( SDID sID, QString m_variable );
 	BranchingSpriteDefinition( const BranchingSpriteDefinition& other );
 	~BranchingSpriteDefinition();
 
-	virtual Randomness* createRandomness( QStringList materialIDs );
-
+	QString m_variable;
 	QMap<QString, SpriteDefinition*> m_sprites;
 };
 
@@ -78,7 +75,7 @@ public:
 	SeasonSpriteDefinition( const SeasonSpriteDefinition& other );
 	~SeasonSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random );
+	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
 };
 
@@ -89,7 +86,7 @@ public:
 	RotationSpriteDefinition( const RotationSpriteDefinition& other );
 	~RotationSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random );
+	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 };
 
 class FramesSpriteDefinition : public BranchingSpriteDefinition
@@ -99,33 +96,29 @@ public:
 	FramesSpriteDefinition( const FramesSpriteDefinition& other );
 	~FramesSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random );
+	Sprite*createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 };
 
 class MaterialSpriteDefinition : public BranchingSpriteDefinition
 {
 public:
-	MaterialSpriteDefinition( SDID sID, int m_position );
+	MaterialSpriteDefinition( SDID sID, QString variable );
 	MaterialSpriteDefinition( const MaterialSpriteDefinition& other );
 	~MaterialSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random );
-	Randomness* createRandomness( QStringList materialIDs );
+	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
-	int m_position;
 };
 
 class TypeSpriteDefinition : public BranchingSpriteDefinition
 {
 public:
-	TypeSpriteDefinition( SDID sID, int position, QMap<QString, QString> materialTypes );
+	TypeSpriteDefinition( SDID sID, QString variable, QMap<QString, QString> materialTypes );
 	TypeSpriteDefinition( const TypeSpriteDefinition& other );
 	~TypeSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random );
-	Randomness* createRandomness( QStringList materialIDs );
+	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
-	int m_position;
 	QMap<QString, QString> m_materialTypes;
 };
 
@@ -137,8 +130,7 @@ public:
 	CombineSpriteDefinition( const CombineSpriteDefinition& other );
 	~CombineSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random );
-	Randomness* createRandomness( QStringList materialIDs );
+	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
 	QList<SpriteDefinition*> m_sprites;
 };
@@ -146,16 +138,16 @@ public:
 class RandomSpriteDefinition : public SpriteDefinition
 {
 public:
-	RandomSpriteDefinition( SDID sID );
+	RandomSpriteDefinition( SDID sID, QString variable );
 	RandomSpriteDefinition( const RandomSpriteDefinition& other );
 	~RandomSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random );
-	Randomness* createRandomness( QStringList materialIDs );
+	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
+	QString m_variable;
 	QList<SpriteDefinition*> m_sprites;
 	QList<int> m_weights;
-	int m_sum =0;
+	int m_sum = 0;
 };
 
 class LinearSpriteDefinition : public SpriteDefinition
@@ -165,8 +157,6 @@ public:
 	LinearSpriteDefinition( const LinearSpriteDefinition& other );
 	~LinearSpriteDefinition();
 
-	virtual Randomness* createRandomness( QStringList materialIDs );
-
 	SpriteDefinition* m_spriteDef;
 };
 
@@ -175,14 +165,12 @@ class TintSpriteDefinition : public LinearSpriteDefinition
 {
 public:
 	TintSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, QString tint );
-	TintSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, int material );
 	TintSpriteDefinition( const TintSpriteDefinition& other );
 	~TintSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random );
+	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
-	QString m_tint;
-	int m_material = -1;
+	QString m_variable;
 };
 
 
@@ -193,7 +181,7 @@ public:
 	EffectSpriteDefinition( const EffectSpriteDefinition& other );
 	~EffectSpriteDefinition();
 
-	Sprite* createSprite( QStringList materialSID, Randomness* random );
+	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
 	QString m_effect;
 };
