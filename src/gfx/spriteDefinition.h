@@ -44,14 +44,13 @@ public:
 class BaseSpriteDefinition : public SpriteDefinition
 {
 public:
-	BaseSpriteDefinition( SDID sID, QString tilesheet, char xOffset = 0, char yOffset = 0 );
+	BaseSpriteDefinition( SDID sID, QString tilesheet, QString offset, QPixmap pm);
 	BaseSpriteDefinition( const BaseSpriteDefinition& other );
 	~BaseSpriteDefinition();
 
 	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random ) ;
 
-	char m_xOffset = 0;
-	char m_yOffset = 0;
+	QString m_offset;
 	QString m_tilesheet = "";
 	QPixmap m_pixmap;
 
@@ -63,6 +62,8 @@ public:
 	BranchingSpriteDefinition( SDID sID, QString m_variable );
 	BranchingSpriteDefinition( const BranchingSpriteDefinition& other );
 	~BranchingSpriteDefinition();
+
+	virtual void add( QString key, SpriteDefinition* spriteDef );
 
 	QString m_variable;
 	QMap<QString, SpriteDefinition*> m_sprites;
@@ -123,28 +124,29 @@ public:
 };
 
 
-class CombineSpriteDefinition : public SpriteDefinition
+class CombineSpriteDefinition : public BranchingSpriteDefinition
 {
 public:
 	CombineSpriteDefinition( SDID sID );
 	CombineSpriteDefinition( const CombineSpriteDefinition& other );
 	~CombineSpriteDefinition();
 
-	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
+	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	void add( QString key, SpriteDefinition* spriteDef );
 
 	QList<SpriteDefinition*> m_sprites;
 };
 
-class RandomSpriteDefinition : public SpriteDefinition
+class RandomSpriteDefinition : public BranchingSpriteDefinition
 {
 public:
 	RandomSpriteDefinition( SDID sID, QString variable );
 	RandomSpriteDefinition( const RandomSpriteDefinition& other );
 	~RandomSpriteDefinition();
 
-	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
+	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	void add( QString key, SpriteDefinition* spriteDef );
 
-	QString m_variable;
 	QList<SpriteDefinition*> m_sprites;
 	QList<int> m_weights;
 	int m_sum = 0;

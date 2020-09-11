@@ -23,21 +23,20 @@ SpriteDefinition::~SpriteDefinition()
 
 /******************************** BaseSpriteDefinition  ********************************************/
 
-BaseSpriteDefinition::BaseSpriteDefinition( SDID sID,QString tilesheet, char xOffset, char yOffset ) :
+BaseSpriteDefinition::BaseSpriteDefinition( SDID sID, QString tilesheet, QString offset, QPixmap pm ) :
 	SpriteDefinition(sID)
 {
-	m_xOffset = xOffset;
-	m_yOffset = yOffset;
+	m_offset   = offset;
 	m_tilesheet = tilesheet;
+	m_pixmap    = pm;
 }
 
 BaseSpriteDefinition::BaseSpriteDefinition( const BaseSpriteDefinition& other ) :
 	SpriteDefinition( other )
 {
-	m_xOffset   = other.m_xOffset;
-	m_yOffset   = other.m_yOffset;
+	m_pixmap    = other.m_pixmap;
+	m_offset    = other.m_offset;
 	m_tilesheet = other.m_tilesheet;
-	m_type      = "BaseSprite";
 }
 
 BaseSpriteDefinition::~BaseSpriteDefinition()
@@ -68,6 +67,11 @@ BranchingSpriteDefinition::BranchingSpriteDefinition( const BranchingSpriteDefin
 
 BranchingSpriteDefinition::~BranchingSpriteDefinition()
 {
+}
+
+void BranchingSpriteDefinition::add( QString key, SpriteDefinition* spriteDef )
+{
+	m_sprites.insert( key, spriteDef );
 }
 
 /******************************** SeasonSpriteDefinition  ********************************************/
@@ -207,13 +211,13 @@ Sprite* TypeSpriteDefinition::createSprite( QMap<QString,QString> parameters, QM
 /******************************** CombineSpriteDefinition  ********************************************/
 
 CombineSpriteDefinition::CombineSpriteDefinition( SDID sID ) :
-	SpriteDefinition( sID )
+	BranchingSpriteDefinition( sID , "")
 {
 	m_type = "Combine";
 }
 
 CombineSpriteDefinition::CombineSpriteDefinition( const CombineSpriteDefinition& other ) :
-	SpriteDefinition( other )
+	BranchingSpriteDefinition( other )
 {
 }
 
@@ -233,19 +237,22 @@ Sprite* CombineSpriteDefinition::createSprite( QMap<QString,QString> parameters,
 	return s;
 }
 
+void CombineSpriteDefinition::add( QString key, SpriteDefinition* spriteDef )
+{
+	m_sprites.append( spriteDef );
+}
+
 /******************************** RandomSpriteDefinition  ********************************************/
 
 RandomSpriteDefinition::RandomSpriteDefinition( SDID sID, QString variable ) :
-	SpriteDefinition( sID )
+	BranchingSpriteDefinition( sID, variable )
 {
 	m_type     = "Random";
-	m_variable = variable;
 }
 
 RandomSpriteDefinition::RandomSpriteDefinition( const RandomSpriteDefinition& other ) :
-	SpriteDefinition( other )
+	BranchingSpriteDefinition( other )
 {
-	m_variable = other.m_variable;
 	m_weights  = other.m_weights;
 	m_sprites  = other.m_sprites;
 } 
@@ -268,6 +275,12 @@ Sprite* RandomSpriteDefinition::createSprite( QMap<QString,QString> parameters, 
 		}
 	}
 	return m_sprites.at( 0 )->createSprite( parameters, random );
+}
+
+void RandomSpriteDefinition::add( QString key, SpriteDefinition* spriteDef )
+{
+	m_weights.append( key.toInt() );
+	m_sprites.append( spriteDef );
 }
 
 /******************************** EffectSpriteDefinition  ********************************************/
