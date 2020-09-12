@@ -18,7 +18,6 @@
 #pragma once
 
 #include "../gfx/sprite.h"
-#include "../gfx/randomness.h"
 
 #include <QMap>
 #include <QPixmap>
@@ -36,7 +35,6 @@ public:
 
 	virtual Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random ) = 0;
 
-	unsigned int uID = 0;
 	SDID m_sID       = "";
 	QString m_type   = "";
 };
@@ -114,20 +112,20 @@ public:
 class TypeSpriteDefinition : public BranchingSpriteDefinition
 {
 public:
-	TypeSpriteDefinition( SDID sID, QString variable, QMap<QString, QString> materialTypes );
+	TypeSpriteDefinition( SDID sID, QString variable, QHash<QString, QString> materialTypes );
 	TypeSpriteDefinition( const TypeSpriteDefinition& other );
 	~TypeSpriteDefinition();
 
 	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
-	QMap<QString, QString> m_materialTypes;
+	QHash<QString, QString> m_materialTypes;
 };
 
 
 class CombineSpriteDefinition : public BranchingSpriteDefinition
 {
 public:
-	CombineSpriteDefinition( SDID sID );
+	CombineSpriteDefinition( SDID sID, QStringList seasons );
 	CombineSpriteDefinition( const CombineSpriteDefinition& other );
 	~CombineSpriteDefinition();
 
@@ -135,6 +133,7 @@ public:
 	void add( QString key, SpriteDefinition* spriteDef );
 
 	QList<SpriteDefinition*> m_sprites;
+	QList<QString> m_seasons;
 };
 
 class RandomSpriteDefinition : public BranchingSpriteDefinition

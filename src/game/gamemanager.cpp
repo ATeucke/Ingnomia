@@ -31,6 +31,7 @@
 #include "../game/world.h"
 #include "../game/worldgenerator.h"
 #include "../gfx/spritefactory.h"
+#include "../gfx/spriteDefFactory.h"
 #include "../gui/eventconnector.h"
 #include "../gui/mainwindow.h"
 #include "../gui/mainwindowrenderer.h"
@@ -146,11 +147,18 @@ void GameManager::init()
 		exit( 0 );
 	}
 
+	if ( !Global::sdf().init() )
+	{
+		qDebug() << "Failed to init SpriteDefFactory.";
+		exit( 0 );
+	}
+
 	if ( !Global::sf().init() )
 	{
 		qDebug() << "Failed to init SpriteFactory.";
 		exit( 0 );
 	}
+
 }
 
 void GameManager::loadGame( QString folder, std::function<void( bool )> callback )

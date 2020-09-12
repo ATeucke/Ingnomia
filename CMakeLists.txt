@@ -69,7 +69,7 @@ if(WIN32)
 			${PROJECT_NAME}.rc
 			${PROJECT_NAME}.ico
 			${PROJECT_NAME}.manifest
-	 "src/gfx/spriteDefinition.cpp" "src/gfx/randomness.h" "src/gfx/randomness.cpp" "src/gfx/spriteDefFactory.h" "src/gfx/spriteDefFactory.cpp")
+	 "src/gfx/spriteDefinition.cpp"   "src/gfx/spriteDefFactory.h" "src/gfx/spriteDefFactory.cpp")
 endif()
 
 target_sources(${PROJECT_NAME}

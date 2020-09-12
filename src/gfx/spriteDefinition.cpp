@@ -12,7 +12,6 @@ SpriteDefinition::SpriteDefinition( SDID sID )
 
 SpriteDefinition::SpriteDefinition( const SpriteDefinition& other )
 {
-	uID           = other.uID;
 	m_sID         = other.m_sID;
 	m_type        = other.m_type;
 }
@@ -183,7 +182,7 @@ Sprite* MaterialSpriteDefinition::createSprite( QMap<QString,QString> parameters
 
 /******************************** TypeSpriteDefinition  ********************************************/
 
-TypeSpriteDefinition::TypeSpriteDefinition( SDID sID, QString variable, QMap<QString, QString> materialTypes ) :
+TypeSpriteDefinition::TypeSpriteDefinition( SDID sID, QString variable, QHash<QString, QString> materialTypes ) :
 	BranchingSpriteDefinition( sID, variable )
 {
 	m_type     = "ByTypes";
@@ -210,10 +209,11 @@ Sprite* TypeSpriteDefinition::createSprite( QMap<QString,QString> parameters, QM
 
 /******************************** CombineSpriteDefinition  ********************************************/
 
-CombineSpriteDefinition::CombineSpriteDefinition( SDID sID ) :
+CombineSpriteDefinition::CombineSpriteDefinition( SDID sID, QStringList seasons ) :
 	BranchingSpriteDefinition( sID , "")
 {
 	m_type = "Combine";
+	m_seasons = seasons;
 }
 
 CombineSpriteDefinition::CombineSpriteDefinition( const CombineSpriteDefinition& other ) :
@@ -232,7 +232,29 @@ Sprite* CombineSpriteDefinition::createSprite( QMap<QString,QString> parameters,
 	for ( int i = 1; i < m_sprites.size(); ++i )
 	{
 		Sprite* s2 = m_sprites.at( i )->createSprite( parameters, random );
-		s->combine( s2, "", 0, 0 ); //TODO new combine
+		//s->combine( s2, "", 0, 0 ); //TODO new combine
+		for ( auto season : m_seasons )
+		{
+			s->combine( s2, season, 0, 0 );
+			s->combine( s2, season, 1, 0 );
+			s->combine( s2, season, 2, 0 );
+			s->combine( s2, season, 3, 0 );
+
+			s->combine( s2, season, 0, 1 );
+			s->combine( s2, season, 1, 1 );
+			s->combine( s2, season, 2, 1 );
+			s->combine( s2, season, 3, 1 );
+
+			s->combine( s2, season, 0, 2 );
+			s->combine( s2, season, 1, 2 );
+			s->combine( s2, season, 2, 2 );
+			s->combine( s2, season, 3, 2 );
+
+			s->combine( s2, season, 0, 3 );
+			s->combine( s2, season, 1, 3 );
+			s->combine( s2, season, 2, 3 );
+			s->combine( s2, season, 3, 3 );
+		}
 	}
 	return s;
 }

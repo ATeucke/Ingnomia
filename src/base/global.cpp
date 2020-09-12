@@ -39,6 +39,7 @@
 #include "../game/workshopmanager.h"
 #include "../game/world.h"
 #include "../gfx/spritefactory.h"
+#include "../gfx/spriteDefFactory.h"
 
 //#include "../gui/keybindings.h"
 
@@ -57,6 +58,7 @@ FarmingManager Global::m_farmingManager;
 WorkshopManager Global::m_workshopManager;
 World Global::m_world;
 SpriteFactory Global::m_spriteFactory;
+SpriteDefFactory Global::m_spriteDefFactory;
 RoomManager Global::m_roomManager;
 GnomeManager Global::m_gnomeManager;
 CreatureManager Global::m_creatureManager;
@@ -310,6 +312,11 @@ World& Global::w()
 SpriteFactory& Global::sf()
 {
 	return m_spriteFactory;
+}
+
+SpriteDefFactory& Global::sdf()
+{
+	return m_spriteDefFactory;
 }
 
 RoomManager& Global::rm()

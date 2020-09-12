@@ -26,10 +26,10 @@ class SpriteDefFactory
 {
 private:
 	QStringList m_seasons;
-	QMap<QString, QString> m_materialTypes;
+	QHash<QString, QString> m_materialTypes;
 	QHash<QString, QString> m_spriteTable;
+	QHash<QString, BaseSpriteDefinition*> m_baseSpriteDefs;
 	QHash<QString, SpriteDefinition*> m_spriteDefs;
-	QHash<QString, SpriteDefinition*> m_baseSpriteDefs;
 	QMap<QString, QPixmap> m_tilesheets;
 	int m_MatVarCounter = 0;
 	int m_RandomVarCounter = 0;
@@ -38,6 +38,7 @@ private:
 	QPixmap extractPixmap( QPixmap pixmap, QVariantMap def );
 	void scanTable( QString table );
 	SpriteDefinition* createSpriteDefinition( QString spriteId );
+	BaseSpriteDefinition* createBaseSpriteDefinition( QString spriteId, QVariantMap row );
 	SpriteDefinition* createBranchingSpriteDefinition( QString id, QString table );
 	BranchingSpriteDefinition* newSpriteDef( QString id, QString table );
 

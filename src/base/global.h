@@ -48,6 +48,7 @@ class NeighborManager;
 class MilitaryManager;
 
 class SpriteFactory;
+class SpriteDefFactory;
 
 class Global
 {
@@ -67,6 +68,7 @@ public:
 	static WorkshopManager& wsm();
 	static World& w();
 	static SpriteFactory& sf();
+	static SpriteDefFactory& sdf();
 	static RoomManager& rm();
 	static GnomeManager& gm();
 	static CreatureManager& cm();
@@ -124,6 +126,7 @@ private:
 	static RoomManager m_roomManager;
 	static World m_world;
 	static SpriteFactory m_spriteFactory;
+	static SpriteDefFactory m_spriteDefFactory;
 	static GnomeManager m_gnomeManager;
 	static CreatureManager m_creatureManager;
 	static EventManager m_eventManager;
