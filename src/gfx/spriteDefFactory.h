@@ -31,8 +31,8 @@ private:
 	QHash<QString, BaseSpriteDefinition*> m_baseSpriteDefs;
 	QHash<QString, SpriteDefinition*> m_spriteDefs;
 	QMap<QString, QPixmap> m_tilesheets;
-	int m_MatVarCounter = 0;
 	int m_RandomVarCounter = 0;
+	QString m_currentMaterial = "0";
 
 	QPixmap loadTilesheet( QString tilesheet );
 	QPixmap extractPixmap( QPixmap pixmap, QVariantMap def );
@@ -47,4 +47,5 @@ public:
 	~SpriteDefFactory();
 
 	bool init();
+	bool saveToFile();
 };

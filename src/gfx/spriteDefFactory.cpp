@@ -9,6 +9,10 @@
 #include <QHash>
 #include <QPainter>
 #include <QPixmap>
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 SpriteDefFactory::SpriteDefFactory()
 {
@@ -20,6 +24,7 @@ SpriteDefFactory::~SpriteDefFactory()
 
 bool SpriteDefFactory::init()
 {
+	m_RandomVarCounter = 0;
 
 	m_seasons.clear();
 	m_materialTypes.clear();
@@ -36,10 +41,11 @@ bool SpriteDefFactory::init()
 	for ( auto row : DB::selectRows( "BaseSprites" ) )
 	{
 		QString id        = row.value( "ID" ).toString();
-		QString tilesheet = row.value( "Tilesheet" ).toString();
+		QString tilesheet        = row.value( "Tilesheet" ).toString();
+		QString sourcerectangle        = row.value( "SourceRectangle" ).toString();
 		QPixmap pixmap    = loadTilesheet( tilesheet );
 		QPixmap pm        = extractPixmap( pixmap , row);
-		BaseSpriteDefinition* sp = new BaseSpriteDefinition( id, tilesheet, "0 0", pm );
+		BaseSpriteDefinition* sp       = new BaseSpriteDefinition( id, tilesheet, sourcerectangle, pm );
 		m_baseSpriteDefs.insert( id, sp );
 	}
 
@@ -49,15 +55,41 @@ bool SpriteDefFactory::init()
 		scanTable( table );
 
 	for ( auto sprite : DB::selectRows( "Sprites" ) )
-		createSpriteDefinition( sprite.value( "ID" ).toString() );
+	{
+		SpriteDefinition* sd = createSpriteDefinition( sprite.value( "ID" ).toString() );
+		//qDebug() << "spritedefinition " << sd->toString();
+	}
+	saveToFile();
+	return true;
+}
+
+bool SpriteDefFactory::saveToFile()
+{
+	QFile saveFile( QStringLiteral( "spriteDefinitions.json" ));
+	if ( !saveFile.open( QIODevice::WriteOnly ) )
+	{
+		qWarning( "Couldn't open save file." );
+		return false;
+	}
+	QJsonArray sprites;
+	for ( auto sd : m_spriteDefs )
+		sprites.append( sd->toJson() );
+
+	saveFile.write( QJsonDocument( sprites ).toJson( QJsonDocument::Indented ) );
+	qDebug() << "spritedefinitions saved as Json to " << saveFile.fileName();
 
 	return true;
+
 }
 
 SpriteDefinition* SpriteDefFactory::createSpriteDefinition( QString spriteId )
 {
 	if ( m_spriteDefs.contains( spriteId ) )
-		return m_spriteDefs.value( spriteId );
+	{
+		SpriteDefinition* spriteDef = m_spriteDefs.value( spriteId )->copy();
+		spriteDef->replaceVariable( "0", m_currentMaterial );
+		return spriteDef;
+	}
 
 	QVariantMap sprite = DB::selectRow( "Sprites", spriteId );
 
@@ -77,7 +109,7 @@ SpriteDefinition* SpriteDefFactory::createSpriteDefinition( QString spriteId )
 	}
 
 	if ( spriteDef && sprite.contains( "Tint" ) && !sprite.value( "Tint" ).toString().isEmpty() )
-		spriteDef      = new TintSpriteDefinition( spriteDef->m_sID + "tint", spriteDef, "m" + QString::number( m_MatVarCounter++ ) );
+		spriteDef = new TintSpriteDefinition( spriteDef->m_sID + "_tint", spriteDef, m_currentMaterial );
 
 	m_spriteDefs.insert( spriteId, spriteDef );
 	return spriteDef;
@@ -91,13 +123,13 @@ BaseSpriteDefinition* SpriteDefFactory::createBaseSpriteDefinition( QString spri
 		qDebug() << "***ERROR*** no basesprite for " << spriteId;
 		return baseSprite;
 	}
+	baseSprite = new BaseSpriteDefinition( *baseSprite );
 
 	if ( row.contains( "Offset" ) && !row.value( "Offset" ).isNull() )
 	{
 		QString offset = row.value( "Offset" ).toString();
 		if ( "0 0" != offset && "" != offset )
 		{
-			baseSprite           = new BaseSpriteDefinition( *baseSprite );
 			baseSprite->m_offset = offset;
 		}
 	}
@@ -107,16 +139,21 @@ BaseSpriteDefinition* SpriteDefFactory::createBaseSpriteDefinition( QString spri
 SpriteDefinition* SpriteDefFactory::createBranchingSpriteDefinition( QString id, QString table )
 {
 	BranchingSpriteDefinition* sp = newSpriteDef( id, table );
+	int i  = 0;
 	for ( auto entry : DB::selectRows( table, id ) )
 	{
-		int i = 0;
+		QString currentMaterial = m_currentMaterial;
+		if ( "Sprites_Combine" == table )
+			m_currentMaterial = QString::number( i );
+
 		SpriteDefinition* subSprite;
 		if ( entry.contains( "BaseSprite" ) && !entry.value( "BaseSprite" ).toString().isEmpty() )
 			subSprite = createBaseSpriteDefinition( entry.value( "BaseSprite" ).toString(), entry );
 		else if ( entry.contains( "Sprite" ) && !entry.value( "Sprite" ).toString().isEmpty() )
-			subSprite        = createSpriteDefinition( entry.value( "Sprite" ).toString() ); 
+			subSprite = createSpriteDefinition( entry.value( "Sprite" ).toString() ); 
 		else /* The Sprites_Seasons_Rotations case */
 			subSprite = createBranchingSpriteDefinition( id + entry.value( "Season" ).toString(), "Sprites_Seasons_Rotations" ); 
+
 
 		if ( !subSprite )
 			return subSprite;
@@ -129,7 +166,7 @@ SpriteDefinition* SpriteDefFactory::createBranchingSpriteDefinition( QString id,
 		}
 		if ( entry.contains( "Tint" ) && !entry.value( "Tint" ).toString().isEmpty() )
 		{
-			subSprite    = new TintSpriteDefinition( subSprite->m_sID + "tint", subSprite, "m" + QString::number( m_MatVarCounter++ ) );
+			subSprite = new TintSpriteDefinition( subSprite->m_sID + "tint", subSprite, m_currentMaterial );
 		}
 
 		if ( "Sprites_ByMaterials" == table )
@@ -139,7 +176,7 @@ SpriteDefinition* SpriteDefFactory::createBranchingSpriteDefinition( QString id,
 		else if ( "Sprites_Combine" == table )
 			sp->add( NULL, subSprite );
 		else if ( "Sprites_Frames" == table )
-			sp->add( QString::number( i++ ), subSprite );
+			sp->add( "F"+QString::number( i ), subSprite );
 		else if ( "Sprites_Rotations" == table )
 			sp->add( entry.value( "Rotation" ).toString(), subSprite );
 		else if ( "Sprites_Seasons" == table )
@@ -149,6 +186,8 @@ SpriteDefinition* SpriteDefFactory::createBranchingSpriteDefinition( QString id,
 		else if ( "Sprites_Random" == table )
 			sp->add( entry.value( "Weight" ).toString(), subSprite );
 
+		m_currentMaterial = currentMaterial;
+		i++;
 	}
 	return sp;
 }
@@ -156,9 +195,9 @@ SpriteDefinition* SpriteDefFactory::createBranchingSpriteDefinition( QString id,
 BranchingSpriteDefinition* SpriteDefFactory::newSpriteDef( QString id, QString table )
 {
 	if ( "Sprites_ByMaterials" == table )
-		return new MaterialSpriteDefinition( id, "m" + QString::number(m_MatVarCounter++) );
+		return new MaterialSpriteDefinition( id, m_currentMaterial );
 	else if ( "Sprites_ByMaterialTypes" == table )
-		return new TypeSpriteDefinition( id, "m" + QString::number( m_MatVarCounter++ ), m_materialTypes );
+		return new TypeSpriteDefinition( id, m_currentMaterial, m_materialTypes );
 	else if ( "Sprites_Combine" == table )
 		return new CombineSpriteDefinition( id, m_seasons );
 	else if ( "Sprites_Frames" == table )
@@ -166,7 +205,7 @@ BranchingSpriteDefinition* SpriteDefFactory::newSpriteDef( QString id, QString t
 	else if ( "Sprites_Rotations" == table )
 		return new RotationSpriteDefinition( id );
 	else if ( "Sprites_Seasons" == table )
-		return new SeasonSpriteDefinition( id );
+		return new SeasonSpriteDefinition( id, m_seasons );
 	else if ( "Sprites_Seasons_Rotations" == table )
 		return new RotationSpriteDefinition( id );
 	else if ( "Sprites_Random" == table )

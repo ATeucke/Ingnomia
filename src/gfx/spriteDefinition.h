@@ -33,7 +33,12 @@ public:
 	SpriteDefinition( const SpriteDefinition& other );
 	virtual ~SpriteDefinition();
 
-	virtual Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random ) = 0;
+	virtual SpriteDefinition* copy()                                                              = 0;
+	virtual Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random ) = 0;
+	virtual QJsonObject toJson();
+	virtual QString toString();
+
+	virtual void replaceVariable( QString replace, QString with );
 
 	SDID m_sID       = "";
 	QString m_type   = "";
@@ -42,14 +47,17 @@ public:
 class BaseSpriteDefinition : public SpriteDefinition
 {
 public:
-	BaseSpriteDefinition( SDID sID, QString tilesheet, QString offset, QPixmap pm);
+	BaseSpriteDefinition( SDID sID, QString tilesheet, QString sourcerectangle, QPixmap pm );
 	BaseSpriteDefinition( const BaseSpriteDefinition& other );
 	~BaseSpriteDefinition();
+	
+	SpriteDefinition* copy();
+	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QJsonObject toJson();
 
-	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random ) ;
-
-	QString m_offset;
 	QString m_tilesheet = "";
+	QString m_sourcerectangle;
+	QString m_offset = "0 0";
 	QPixmap m_pixmap;
 
 };
@@ -62,6 +70,8 @@ public:
 	~BranchingSpriteDefinition();
 
 	virtual void add( QString key, SpriteDefinition* spriteDef );
+	virtual QJsonObject toJson();
+	void replaceVariable( QString replace, QString with );
 
 	QString m_variable;
 	QMap<QString, SpriteDefinition*> m_sprites;
@@ -70,11 +80,16 @@ public:
 class SeasonSpriteDefinition : public BranchingSpriteDefinition
 {
 public:
-	SeasonSpriteDefinition( SDID sID );
+	SeasonSpriteDefinition( SDID sID, QStringList seasons );
 	SeasonSpriteDefinition( const SeasonSpriteDefinition& other );
 	~SeasonSpriteDefinition();
 
-	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
+	SpriteDefinition* copy();
+	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+
+	QJsonObject toJson();
+
+	QList<QString> m_seasons;
 
 };
 
@@ -85,7 +100,9 @@ public:
 	RotationSpriteDefinition( const RotationSpriteDefinition& other );
 	~RotationSpriteDefinition();
 
-	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
+	SpriteDefinition* copy();
+	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QJsonObject toJson();
 };
 
 class FramesSpriteDefinition : public BranchingSpriteDefinition
@@ -95,6 +112,7 @@ public:
 	FramesSpriteDefinition( const FramesSpriteDefinition& other );
 	~FramesSpriteDefinition();
 
+	SpriteDefinition* copy();
 	Sprite*createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 };
 
@@ -105,6 +123,7 @@ public:
 	MaterialSpriteDefinition( const MaterialSpriteDefinition& other );
 	~MaterialSpriteDefinition();
 
+	SpriteDefinition* copy();
 	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
 };
@@ -116,6 +135,7 @@ public:
 	TypeSpriteDefinition( const TypeSpriteDefinition& other );
 	~TypeSpriteDefinition();
 
+	SpriteDefinition* copy();
 	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
 	QHash<QString, QString> m_materialTypes;
@@ -129,8 +149,10 @@ public:
 	CombineSpriteDefinition( const CombineSpriteDefinition& other );
 	~CombineSpriteDefinition();
 
+	SpriteDefinition* copy();
 	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
 	void add( QString key, SpriteDefinition* spriteDef );
+	QJsonObject toJson();
 
 	QList<SpriteDefinition*> m_sprites;
 	QList<QString> m_seasons;
@@ -143,8 +165,12 @@ public:
 	RandomSpriteDefinition( const RandomSpriteDefinition& other );
 	~RandomSpriteDefinition();
 
+	SpriteDefinition* copy();
 	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
 	void add( QString key, SpriteDefinition* spriteDef );
+	QJsonObject toJson();
+
+	void replaceVariable( QString replace, QString with );
 
 	QList<SpriteDefinition*> m_sprites;
 	QList<int> m_weights;
@@ -157,6 +183,9 @@ public:
 	LinearSpriteDefinition( SDID sID, SpriteDefinition* spriteDef );
 	LinearSpriteDefinition( const LinearSpriteDefinition& other );
 	~LinearSpriteDefinition();
+	QJsonObject toJson();
+
+	void replaceVariable( QString replace, QString with );
 
 	SpriteDefinition* m_spriteDef;
 };
@@ -169,7 +198,11 @@ public:
 	TintSpriteDefinition( const TintSpriteDefinition& other );
 	~TintSpriteDefinition();
 
-	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
+	SpriteDefinition* copy();
+	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QJsonObject toJson();
+
+	void replaceVariable( QString replace, QString with );
 
 	QString m_variable;
 };
@@ -182,7 +215,9 @@ public:
 	EffectSpriteDefinition( const EffectSpriteDefinition& other );
 	~EffectSpriteDefinition();
 
-	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
+	SpriteDefinition* copy();
+	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QJsonObject toJson();
 
 	QString m_effect;
 };
