@@ -9689,6 +9689,10 @@ INSERT INTO "Sprites_Random" ("ID","BaseSprite","Sprite","Weight") VALUES ('Mush
 INSERT INTO "Sprites_Random" ("ID","BaseSprite","Sprite","Weight") VALUES ('MushroomGrassDetail','MushroomGrassDetail3',NULL,5.0);
 INSERT INTO "Sprites_Random" ("ID","BaseSprite","Sprite","Weight") VALUES ('MushroomGrassDetail','MushroomGrassDetail4',NULL,5.0);
 INSERT INTO "Sprites_Random" ("ID","BaseSprite","Sprite","Weight") VALUES ('MushroomGrassDetail','MushroomGrassDetail5',NULL,5.0);
+INSERT INTO "Sprites_Rotations" ("ID","BaseSprite","Effect","Rotation","Sprite") VALUES ('ClayRampTop','ClayRampTopFR',NULL,'FR',NULL);
+INSERT INTO "Sprites_Rotations" ("ID","BaseSprite","Effect","Rotation","Sprite") VALUES ('ClayRampTop','ClayRampTopFL',NULL,'FL',NULL);
+INSERT INTO "Sprites_Rotations" ("ID","BaseSprite","Effect","Rotation","Sprite") VALUES ('ClayRampTop','ClayRampTopBL',NULL,'BL',NULL);
+INSERT INTO "Sprites_Rotations" ("ID","BaseSprite","Effect","Rotation","Sprite") VALUES ('ClayRampTop','ClayRampTopBR',NULL,'BR',NULL);
 INSERT INTO "Sprites_Rotations" ("ID","BaseSprite","Effect","Rotation","Sprite") VALUES ('WoodBedFrame','WoodBedFrameFR',NULL,'FR',NULL);
 INSERT INTO "Sprites_Rotations" ("ID","BaseSprite","Effect","Rotation","Sprite") VALUES ('WoodBedFrame','WoodBedFrameFR','FlipHorizontal','FL',NULL);
 INSERT INTO "Sprites_Rotations" ("ID","BaseSprite","Effect","Rotation","Sprite") VALUES ('WoodBedFrame','WoodBedFrameBL',NULL,'BL',NULL);

@@ -78,6 +78,11 @@ Sprite* BaseSpriteDefinition::createSprite( QMap<QString, QString> parameters, Q
 	return sprite;
 }
 
+QMap<QString, int> BaseSpriteDefinition::getRandomVariables()
+{
+	return QMap<QString, int>();
+}
+
 QJsonObject BaseSpriteDefinition::toJson()
 {
 	QJsonObject json = SpriteDefinition::toJson();
@@ -112,6 +117,15 @@ BranchingSpriteDefinition::~BranchingSpriteDefinition()
 void BranchingSpriteDefinition::add( QString key, SpriteDefinition* spriteDef )
 {
 	m_sprites.insert( key, spriteDef );
+}
+
+QMap<QString, int> BranchingSpriteDefinition::getRandomVariables()
+{
+	QMap<QString, int> vars;
+	for ( auto spriteDef : m_sprites )
+		vars.insert( spriteDef->getRandomVariables() );
+
+	return vars;
 }
 
 QJsonObject BranchingSpriteDefinition::toJson()
@@ -323,8 +337,6 @@ CombineSpriteDefinition::CombineSpriteDefinition( const CombineSpriteDefinition&
 	BranchingSpriteDefinition( other )
 {
 	m_seasons = other.m_seasons;
-	for ( auto sprite : other.m_sprites )
-		m_sprites.append( sprite->copy());
 }
 
 CombineSpriteDefinition::~CombineSpriteDefinition()
@@ -338,11 +350,14 @@ SpriteDefinition* CombineSpriteDefinition::copy()
 
 Sprite* CombineSpriteDefinition::createSprite( QMap<QString, QString> parameters, QMap<QString, int> random )
 {
-	Sprite* s = m_sprites.at( 0 )->createSprite( parameters, random );
+	Sprite* s = m_sprites.value( "0" )->createSprite( parameters, random );
 
-	for ( int i = 1; i < m_sprites.size(); ++i )
+	for ( auto key : m_sprites.keys() )
 	{
-		Sprite* s2 = m_sprites.at( i )->createSprite( parameters, random );
+		if ( key == "0" )
+			continue;
+
+		Sprite* s2 = m_sprites.value(key)->createSprite( parameters, random );
 		//s->combine( s2, "", 0, 0 ); //TODO new combine
 		for ( auto season : m_seasons )
 		{
@@ -370,15 +385,10 @@ Sprite* CombineSpriteDefinition::createSprite( QMap<QString, QString> parameters
 	return s;
 }
 
-void CombineSpriteDefinition::add( QString key, SpriteDefinition* spriteDef )
-{
-	m_sprites.append( spriteDef );
-}
-
 QJsonObject CombineSpriteDefinition::toJson()
 {
 	QJsonArray arr;
-	for ( auto sd : m_sprites )
+	for ( auto sd : m_sprites.values() )
 		arr.append( sd->toJson() );
 
 	QJsonObject json = SpriteDefinition::toJson();
@@ -398,8 +408,8 @@ RandomSpriteDefinition::RandomSpriteDefinition( const RandomSpriteDefinition& ot
 	BranchingSpriteDefinition( other )
 {
 	m_weights  = other.m_weights;
-	for ( auto sprite : other.m_sprites )
-		m_sprites.append( sprite->copy() );
+	for ( auto sprite : other.m_randomSprites )
+		m_randomSprites.append( sprite->copy() );
 } 
 
 RandomSpriteDefinition::~RandomSpriteDefinition()
@@ -421,10 +431,10 @@ Sprite* RandomSpriteDefinition::createSprite( QMap<QString, QString> parameters,
 		total += m_weights[i];
 		if ( ran < total )
 		{
-			return m_sprites.at( i )->createSprite( parameters, random );
+			return m_randomSprites.at( i )->createSprite( parameters, random );
 		}
 	}
-	return m_sprites.at( 0 )->createSprite( parameters, random );
+	return m_randomSprites.at( 0 )->createSprite( parameters, random );
 }
 
 void RandomSpriteDefinition::add( QString key, SpriteDefinition* spriteDef )
@@ -432,7 +442,17 @@ void RandomSpriteDefinition::add( QString key, SpriteDefinition* spriteDef )
 	int wheight = key.toInt();
 	m_sum += wheight;
 	m_weights.append( wheight );
-	m_sprites.append( spriteDef );
+	m_randomSprites.append( spriteDef );
+}
+
+QMap<QString, int> RandomSpriteDefinition::getRandomVariables()
+{
+	QMap<QString, int> vars;
+	for ( auto spriteDef : m_randomSprites )
+		vars.insert( spriteDef->getRandomVariables() );
+	vars.insert( m_variable, m_sum );
+
+	return vars;
 }
 
 QJsonObject RandomSpriteDefinition::toJson()
@@ -449,7 +469,7 @@ QJsonObject RandomSpriteDefinition::toJson()
 	}
 
 	QJsonArray arr;
-	for ( auto sd : m_sprites )
+	for ( auto sd : m_randomSprites )
 		arr.append( sd->toJson() );
 	json.insert( "Sprites", arr );
 
@@ -462,7 +482,7 @@ void RandomSpriteDefinition::replaceVariable( QString replace, QString with )
 {
 	if ( m_variable == replace )
 		m_variable = with;
-	for ( auto sprite : m_sprites )
+	for ( auto sprite : m_randomSprites )
 		sprite->replaceVariable( replace, with );
 }
 
@@ -482,6 +502,11 @@ LinearSpriteDefinition::LinearSpriteDefinition( const LinearSpriteDefinition& ot
 
 LinearSpriteDefinition::~LinearSpriteDefinition()
 {
+}
+
+QMap<QString, int> LinearSpriteDefinition::getRandomVariables()
+{
+	return m_spriteDef->getRandomVariables();
 }
 
 QJsonObject LinearSpriteDefinition::toJson()
@@ -591,5 +616,61 @@ QJsonObject EffectSpriteDefinition::toJson()
 {
 	QJsonObject json = LinearSpriteDefinition::toJson();
 	json.insert( "5_Effect", m_effect );
+	return json;
+}
+
+/******************************** ComplexSpriteDefinition  ********************************************/
+
+ComplexSpriteDefinition::ComplexSpriteDefinition( SDID sID, SpriteDefinition* spriteDef ) :
+	SpriteDefinition( sID )
+{
+	m_type      = "ComplexSprite";
+	m_spriteDef = spriteDef->copy();
+
+	//Normalize the random-variables  to R0,R1,...
+	m_randomVariables = m_spriteDef->getRandomVariables(); 
+	int i             = 0;
+	for ( QString var : m_randomVariables.keys() )
+	{
+		m_spriteDef->replaceVariable( var, "R" + QString::number( i ) );
+		i++;
+	}
+	m_randomVariables.~QMap();
+	m_randomVariables = m_spriteDef->getRandomVariables();
+
+}
+
+ComplexSpriteDefinition::ComplexSpriteDefinition( const ComplexSpriteDefinition& other ) :
+	SpriteDefinition( other )
+{
+	m_spriteDef = other.m_spriteDef->copy();
+	m_randomVariables.insert(other.m_randomVariables);
+}
+
+ComplexSpriteDefinition::~ComplexSpriteDefinition()
+{
+	m_spriteDef->~SpriteDefinition();
+	m_randomVariables.~QMap();
+}
+
+SpriteDefinition* ComplexSpriteDefinition::copy()
+{
+	return &ComplexSpriteDefinition(*this);
+}
+
+Sprite* ComplexSpriteDefinition::createSprite( QMap<QString, QString> parameters, QMap<QString, int> random )
+{
+	//TODO
+	return nullptr;
+}
+
+QMap<QString, int> ComplexSpriteDefinition::getRandomVariables()
+{
+	return m_randomVariables;
+}
+
+QJsonObject ComplexSpriteDefinition::toJson()
+{
+	auto json = m_spriteDef->toJson();
 	return json;
 }

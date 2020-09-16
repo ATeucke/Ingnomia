@@ -31,6 +31,7 @@ bool SpriteDefFactory::init()
 	m_spriteTable.clear();
 	m_baseSpriteDefs.clear();
 	m_spriteDefs.clear();
+	m_complexSpriteDefs.clear();
 	m_tilesheets.clear();
 
 	m_seasons = DB::ids( "Seasons" );
@@ -57,29 +58,16 @@ bool SpriteDefFactory::init()
 	for ( auto sprite : DB::selectRows( "Sprites" ) )
 	{
 		SpriteDefinition* sd = createSpriteDefinition( sprite.value( "ID" ).toString() );
-		//qDebug() << "spritedefinition " << sd->toString();
+	}
+	// wrap finished SpriteDefinitions with ComplexSpriteDefinition holding cached meta-information, e.g the randomVariables.
+
+	for ( auto spriteId : m_spriteDefs.keys() )
+	{
+		SpriteDefinition* sd = m_spriteDefs.value( spriteId );
+		m_complexSpriteDefs.insert( spriteId, new ComplexSpriteDefinition( spriteId, sd ) );
 	}
 	saveToFile();
 	return true;
-}
-
-bool SpriteDefFactory::saveToFile()
-{
-	QFile saveFile( QStringLiteral( "spriteDefinitions.json" ));
-	if ( !saveFile.open( QIODevice::WriteOnly ) )
-	{
-		qWarning( "Couldn't open save file." );
-		return false;
-	}
-	QJsonArray sprites;
-	for ( auto sd : m_spriteDefs )
-		sprites.append( sd->toJson() );
-
-	saveFile.write( QJsonDocument( sprites ).toJson( QJsonDocument::Indented ) );
-	qDebug() << "spritedefinitions saved as Json to " << saveFile.fileName();
-
-	return true;
-
 }
 
 SpriteDefinition* SpriteDefFactory::createSpriteDefinition( QString spriteId )
@@ -174,7 +162,7 @@ SpriteDefinition* SpriteDefFactory::createBranchingSpriteDefinition( QString id,
 		else if ( "Sprites_ByMaterialTypes" == table )
 			sp->add( entry.value( "MaterialType" ).toString(), subSprite );
 		else if ( "Sprites_Combine" == table )
-			sp->add( NULL, subSprite );
+			sp->add( QString::number( i ), subSprite );
 		else if ( "Sprites_Frames" == table )
 			sp->add( "F"+QString::number( i ), subSprite );
 		else if ( "Sprites_Rotations" == table )
@@ -262,4 +250,23 @@ QPixmap SpriteDefFactory::extractPixmap( QPixmap pixmap, QVariantMap def )
 	}
 	qDebug() << "***ERROR*** extractPixmap() for " << def.value( "ID" ).toString();
 	return QPixmap();
+}
+
+
+bool SpriteDefFactory::saveToFile()
+{
+	QFile saveFile( QStringLiteral( "spriteDefinitions.json" ) );
+	if ( !saveFile.open( QIODevice::WriteOnly ) )
+	{
+		qWarning( "Couldn't open save file." );
+		return false;
+	}
+	QJsonArray sprites;
+	for ( auto sd : m_complexSpriteDefs )
+		sprites.append( sd->toJson() );
+
+	saveFile.write( QJsonDocument( sprites ).toJson( QJsonDocument::Indented ) );
+	qDebug() << "spritedefinitions saved as Json to " << saveFile.fileName();
+
+	return true;
 }

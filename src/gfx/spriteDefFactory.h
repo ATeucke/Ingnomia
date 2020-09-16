@@ -30,6 +30,7 @@ private:
 	QHash<QString, QString> m_spriteTable;
 	QHash<QString, BaseSpriteDefinition*> m_baseSpriteDefs;
 	QHash<QString, SpriteDefinition*> m_spriteDefs;
+	QHash<QString, SpriteDefinition*> m_complexSpriteDefs;
 	QMap<QString, QPixmap> m_tilesheets;
 	int m_RandomVarCounter = 0;
 	QString m_currentMaterial = "0";
