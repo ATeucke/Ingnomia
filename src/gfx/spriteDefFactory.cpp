@@ -14,6 +14,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
+
 SpriteDefFactory::SpriteDefFactory()
 {
 }
@@ -22,10 +23,8 @@ SpriteDefFactory::~SpriteDefFactory()
 {
 }
 
-bool SpriteDefFactory::init()
+void SpriteDefFactory::loadCaches()
 {
-	m_RandomVarCounter = 0;
-
 	m_seasons.clear();
 	m_materialTypes.clear();
 	m_spriteTable.clear();
@@ -39,13 +38,21 @@ bool SpriteDefFactory::init()
 	for ( auto id : DB::ids( "Materials" ) )
 		m_materialTypes.insert( id, DB::select( "Type", "Materials", id ).toString() );
 
+}
+
+bool SpriteDefFactory::init()
+{
+	m_RandomVarCounter = 0;
+
+	loadCaches();
+
 	for ( auto row : DB::selectRows( "BaseSprites" ) )
 	{
 		QString id        = row.value( "ID" ).toString();
 		QString tilesheet        = row.value( "Tilesheet" ).toString();
 		QString sourcerectangle        = row.value( "SourceRectangle" ).toString();
 		QPixmap pixmap    = loadTilesheet( tilesheet );
-		QPixmap pm        = extractPixmap( pixmap , row);
+		QPixmap pm                     = extractPixmap( id, pixmap, sourcerectangle );
 		BaseSpriteDefinition* sp       = new BaseSpriteDefinition( id, tilesheet, sourcerectangle, pm );
 		m_baseSpriteDefs.insert( id, sp );
 	}
@@ -231,9 +238,8 @@ QPixmap SpriteDefFactory::loadTilesheet( QString tilesheet )
 	return pm;
 }
 
-QPixmap SpriteDefFactory::extractPixmap( QPixmap pixmap, QVariantMap def )
+QPixmap SpriteDefFactory::extractPixmap( QString id, QPixmap pixmap, QString rect )
 {
-	QString rect = def.value( "SourceRectangle" ).toString();
 
 	QStringList rl = rect.split( " " );
 	if ( rl.size() == 4 )
@@ -248,7 +254,7 @@ QPixmap SpriteDefFactory::extractPixmap( QPixmap pixmap, QVariantMap def )
 
 		return p;
 	}
-	qDebug() << "***ERROR*** extractPixmap() for " << def.value( "ID" ).toString();
+	qDebug() << "***ERROR*** extractPixmap() for " << id;
 	return QPixmap();
 }
 

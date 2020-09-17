@@ -32,6 +32,7 @@
 #include "../game/worldgenerator.h"
 #include "../gfx/spritefactory.h"
 #include "../gfx/spriteDefFactory.h"
+#include "../gfx/jsonSpriteDefFactory.h"
 #include "../gui/eventconnector.h"
 #include "../gui/mainwindow.h"
 #include "../gui/mainwindowrenderer.h"
@@ -144,6 +145,12 @@ void GameManager::init()
 	if ( !S::gi().init() )
 	{
 		qDebug() << "Failed to init translation.";
+		exit( 0 );
+	}
+
+	if ( !Global::jsdf().init() )
+	{
+		qDebug() << "Failed to init JsonSpriteDefFactory.";
 		exit( 0 );
 	}
 

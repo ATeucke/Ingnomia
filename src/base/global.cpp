@@ -40,6 +40,7 @@
 #include "../game/world.h"
 #include "../gfx/spritefactory.h"
 #include "../gfx/spriteDefFactory.h"
+#include "../gfx/jsonSpriteDefFactory.h"
 
 //#include "../gui/keybindings.h"
 
@@ -59,6 +60,7 @@ WorkshopManager Global::m_workshopManager;
 World Global::m_world;
 SpriteFactory Global::m_spriteFactory;
 SpriteDefFactory Global::m_spriteDefFactory;
+JsonSpriteDefFactory Global::m_jsonSpriteDefFactory;
 RoomManager Global::m_roomManager;
 GnomeManager Global::m_gnomeManager;
 CreatureManager Global::m_creatureManager;
@@ -318,6 +320,13 @@ SpriteDefFactory& Global::sdf()
 {
 	return m_spriteDefFactory;
 }
+
+
+JsonSpriteDefFactory& Global::jsdf()
+{
+	return m_jsonSpriteDefFactory;
+} 
+
 
 RoomManager& Global::rm()
 {

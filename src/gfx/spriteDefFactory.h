@@ -25,8 +25,6 @@ enum Tables
 class SpriteDefFactory
 {
 private:
-	QStringList m_seasons;
-	QHash<QString, QString> m_materialTypes;
 	QHash<QString, QString> m_spriteTable;
 	QHash<QString, BaseSpriteDefinition*> m_baseSpriteDefs;
 	QHash<QString, SpriteDefinition*> m_spriteDefs;
@@ -35,17 +33,26 @@ private:
 	int m_RandomVarCounter = 0;
 	QString m_currentMaterial = "0";
 
-	QPixmap loadTilesheet( QString tilesheet );
-	QPixmap extractPixmap( QPixmap pixmap, QVariantMap def );
 	void scanTable( QString table );
 	SpriteDefinition* createSpriteDefinition( QString spriteId );
 	BaseSpriteDefinition* createBaseSpriteDefinition( QString spriteId, QVariantMap row );
 	SpriteDefinition* createBranchingSpriteDefinition( QString id, QString table );
 	BranchingSpriteDefinition* newSpriteDef( QString id, QString table );
 
+protected:
+
+	QHash<QString, QString> m_materialTypes;
+	QStringList m_seasons;
+	void loadCaches();
+	QPixmap loadTilesheet( QString tilesheet );
+	QPixmap extractPixmap( QString id, QPixmap pixmap, QString rect );
+
+
 public:
+
 	SpriteDefFactory();
 	~SpriteDefFactory();
+
 
 	bool init();
 	bool saveToFile();

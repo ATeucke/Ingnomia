@@ -49,6 +49,7 @@ class MilitaryManager;
 
 class SpriteFactory;
 class SpriteDefFactory;
+class JsonSpriteDefFactory;
 
 class Global
 {
@@ -69,6 +70,7 @@ public:
 	static World& w();
 	static SpriteFactory& sf();
 	static SpriteDefFactory& sdf();
+	static JsonSpriteDefFactory& jsdf();
 	static RoomManager& rm();
 	static GnomeManager& gm();
 	static CreatureManager& cm();
@@ -127,6 +129,7 @@ private:
 	static World m_world;
 	static SpriteFactory m_spriteFactory;
 	static SpriteDefFactory m_spriteDefFactory;
+	static JsonSpriteDefFactory m_jsonSpriteDefFactory;
 	static GnomeManager m_gnomeManager;
 	static CreatureManager m_creatureManager;
 	static EventManager m_eventManager;
