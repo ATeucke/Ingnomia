@@ -73,7 +73,7 @@ bool SpriteDefFactory::init()
 		SpriteDefinition* sd = m_spriteDefs.value( spriteId );
 		m_complexSpriteDefs.insert( spriteId, new ComplexSpriteDefinition( spriteId, sd ) );
 	}
-	saveToFile();
+	saveToFile( "SpriteDefinitionsFromDB" );
 	return true;
 }
 
@@ -259,9 +259,9 @@ QPixmap SpriteDefFactory::extractPixmap( QString id, QPixmap pixmap, QString rec
 }
 
 
-bool SpriteDefFactory::saveToFile()
+bool SpriteDefFactory::saveToFile(QString filename)
 {
-	QFile saveFile( QStringLiteral( "spriteDefinitions.json" ) );
+	QFile saveFile( filename + ".json" );
 	if ( !saveFile.open( QIODevice::WriteOnly ) )
 	{
 		qWarning( "Couldn't open save file." );

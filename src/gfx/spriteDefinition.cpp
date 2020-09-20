@@ -407,7 +407,8 @@ RandomSpriteDefinition::RandomSpriteDefinition( SDID sID, QString variable ) :
 RandomSpriteDefinition::RandomSpriteDefinition( const RandomSpriteDefinition& other ) :
 	BranchingSpriteDefinition( other )
 {
-	m_weights  = other.m_weights;
+	m_weights.append(other.m_weights);
+	m_sum     = other.m_sum;
 	for ( auto sprite : other.m_randomSprites )
 		m_randomSprites.append( sprite->copy() );
 } 
@@ -672,5 +673,54 @@ QMap<QString, int> ComplexSpriteDefinition::getRandomVariables()
 QJsonObject ComplexSpriteDefinition::toJson()
 {
 	auto json = m_spriteDef->toJson();
+	return json;
+}
+
+/******************************** TemplateSpriteDefinition  ********************************************/
+
+TemplateSpriteDefinition::TemplateSpriteDefinition( SDID sID, QJsonObject spriteDef, QList<QString> variables ) :
+	SpriteDefinition(sID)
+{
+	m_type      = "Template";
+	m_variables = variables;
+	m_template  = QJsonObject(spriteDef);
+}
+
+TemplateSpriteDefinition::TemplateSpriteDefinition( const TemplateSpriteDefinition& other ) :
+	SpriteDefinition( other )
+{
+	m_variables.append(other.m_variables);
+	m_template = QJsonObject(other.m_template);
+}
+
+TemplateSpriteDefinition::~TemplateSpriteDefinition()
+{
+}
+
+QMap<QString, int> TemplateSpriteDefinition::getRandomVariables()
+{
+	return QMap<QString, int>();
+}
+
+SpriteDefinition* TemplateSpriteDefinition::copy()
+{
+	return &TemplateSpriteDefinition( *this );
+}
+
+Sprite* TemplateSpriteDefinition::createSprite( QMap<QString, QString> parameters, QMap<QString, int> random )
+{
+	return nullptr;
+}
+
+QJsonObject TemplateSpriteDefinition::toJson()
+{
+
+	QJsonObject json = SpriteDefinition::toJson();
+
+	QJsonArray vars;
+	for ( auto w : m_variables )
+		vars.append( w );
+	json.insert( "3_Vars", vars );
+	json.insert( "Sprite", m_template );
 	return json;
 }

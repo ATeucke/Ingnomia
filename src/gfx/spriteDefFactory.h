@@ -28,7 +28,6 @@ private:
 	QHash<QString, QString> m_spriteTable;
 	QHash<QString, BaseSpriteDefinition*> m_baseSpriteDefs;
 	QHash<QString, SpriteDefinition*> m_spriteDefs;
-	QHash<QString, SpriteDefinition*> m_complexSpriteDefs;
 	QMap<QString, QPixmap> m_tilesheets;
 	int m_RandomVarCounter = 0;
 	QString m_currentMaterial = "0";
@@ -43,6 +42,8 @@ protected:
 
 	QHash<QString, QString> m_materialTypes;
 	QStringList m_seasons;
+	QHash<QString, SpriteDefinition*> m_complexSpriteDefs;
+
 	void loadCaches();
 	QPixmap loadTilesheet( QString tilesheet );
 	QPixmap extractPixmap( QString id, QPixmap pixmap, QString rect );
@@ -55,5 +56,5 @@ public:
 
 
 	bool init();
-	bool saveToFile();
+	bool saveToFile( QString filename );
 };

@@ -242,3 +242,20 @@ public:
 
 	QString m_effect;
 };
+
+
+class TemplateSpriteDefinition : public SpriteDefinition
+{
+public:
+	TemplateSpriteDefinition( SDID sID, QJsonObject spriteDef, QList<QString> variables );
+	TemplateSpriteDefinition( const TemplateSpriteDefinition& other );
+	~TemplateSpriteDefinition();
+
+	virtual QMap<QString, int> getRandomVariables(); 
+	SpriteDefinition* copy();
+	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QJsonObject toJson();
+
+	QList<QString> m_variables;
+	QJsonObject m_template;
+};

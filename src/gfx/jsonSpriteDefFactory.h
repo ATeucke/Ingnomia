@@ -17,11 +17,22 @@ class JsonSpriteDefFactory : public SpriteDefFactory
 private:
 
 	QList<QString> m_rotations;
-	QHash<QString,QJsonObject> 	m_jsonDefs;
+	QHash<QString, QJsonObject> m_jsonDefs;
 	 
 
 	bool loadSpriteDefinitions();
+	void jsonReplace( QJsonValueRef json, QString before, QString after );
+	QJsonObject jsonReplace( QJsonObject json, QString before, QString after );
+	QJsonArray jsonReplace( QJsonArray json, QString before, QString after );
 	SpriteDefinition* fromJson( QJsonObject jsonSpriteDef );
+
+	SpriteDefinition* createApplyTemplateSpriteDef( QJsonObject jsonSpriteDef );
+
+	TemplateSpriteDefinition* createTemplateSpriteDef( QJsonObject jsonSpriteDef );
+
+	SpriteDefinition* createRandomSpriteDef( QJsonObject jsonSpriteDef );
+
+	SpriteDefinition* createFramesSpriteDef( QJsonObject jsonSpriteDef );
 
 	SpriteDefinition* createCombineSpriteDef( QJsonObject jsonSpriteDef );
 

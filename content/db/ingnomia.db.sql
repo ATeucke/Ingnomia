@@ -8933,11 +8933,11 @@ INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite"
 INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('RoughWallShort','RoughSandWallShort','Sand',NULL);
 INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('RoughWallShort','RoughClayWallShort','Clay',NULL);
 INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('RoughWallShort',NULL,'Stone','RoughStoneFloor3');
-INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('Floor',NULL,'Stone',NULL);
+INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('Floor',NULL,'Stone','RoughStoneFloor3');
 INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('Floor','MetalFloor','Metal',NULL);
 INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('Floor','LogFloor','Wood',NULL);
 INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('LogFloor','LogFloor','Wood',NULL);
-INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('Wall',NULL,'Stone',NULL);
+INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('Wall',NULL,'Stone','RoughStoneWall2');
 INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('Wall','MetalWall','Metal',NULL);
 INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('Wall','LogWall','Wood',NULL);
 INSERT INTO "Sprites_ByMaterialTypes" ("ID","BaseSprite","MaterialType","Sprite") VALUES ('LogWall','LogWall','Wood',NULL);
