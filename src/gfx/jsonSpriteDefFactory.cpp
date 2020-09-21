@@ -36,8 +36,8 @@ bool JsonSpriteDefFactory::init()
 		m_complexSpriteDefs.insert( id, fromJson( spriteDef ) );
 	}
 	saveToFile("SpriteDefinitionsFromJson");
- 
-	return true;
+  
+	return true; 
 }
 
 SpriteDefinition* JsonSpriteDefFactory::fromJson( QJsonObject jsonSpriteDef )
@@ -99,7 +99,7 @@ SpriteDefinition* JsonSpriteDefFactory::createApplyTemplateSpriteDef( QJsonObjec
 	if ( !m_jsonDefs.contains( templateID ) )
 	{
 		qDebug() << "***ERROR*** no template with id " << templateID;
-		return NULL;
+		return NULL; 
 	}
 	QJsonObject templateJson = m_jsonDefs.value( templateID );
 	TemplateSpriteDefinition* sp = createTemplateSpriteDef( templateJson );
@@ -107,7 +107,7 @@ SpriteDefinition* JsonSpriteDefFactory::createApplyTemplateSpriteDef( QJsonObjec
 	if ( sp->m_variables.size() != arguments.size() )
 	{
 		qDebug() << "***ERROR*** no. of arguments of template does not match " << jsonSpriteDef;
-		return NULL;
+		return NULL; 
 	}
 
 	QJsonObject defJson = sp->m_template;
@@ -115,9 +115,9 @@ SpriteDefinition* JsonSpriteDefFactory::createApplyTemplateSpriteDef( QJsonObjec
 	for ( int i = 0; i < arguments.size(); i++ )
 	{
 		defJson = jsonReplace( defJson, sp->m_variables[i], arguments[i] );
-		qDebug() << "arguments replaced  " << defJson;
+		//qDebug() << "arguments replaced  " << defJson;
 	}
-	qDebug() << "arguments replaced  " << defJson;
+	//qDebug() << "arguments replaced  " << defJson;
 
 	return fromJson( defJson );
 }
