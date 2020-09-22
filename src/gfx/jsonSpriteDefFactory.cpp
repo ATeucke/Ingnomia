@@ -37,7 +37,7 @@ bool JsonSpriteDefFactory::init()
 	}
 	saveToFile("SpriteDefinitionsFromJson");
   
-	return true; 
+	return true;  
 }
 
 SpriteDefinition* JsonSpriteDefFactory::fromJson( QJsonObject jsonSpriteDef )
@@ -107,7 +107,7 @@ SpriteDefinition* JsonSpriteDefFactory::createApplyTemplateSpriteDef( QJsonObjec
 	if ( sp->m_variables.size() != arguments.size() )
 	{
 		qDebug() << "***ERROR*** no. of arguments of template does not match " << jsonSpriteDef;
-		return NULL; 
+		return NULL;  
 	}
 
 	QJsonObject defJson = sp->m_template;

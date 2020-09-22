@@ -219,7 +219,7 @@
     {
         "ID": "FenceRotNESWTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
         "Sprite": 
 		{
 			"ID": "$nameFenceRotNESW",
@@ -230,31 +230,31 @@
 					"ID": "$nameFenceWest",
 					"Type": "Base",
 					"Tilesheet": "$tilesheet",
-					"SourceRectangle": "$West 32 32"
+					"SourceRectangle": "$Postx-32 $Posty 32 32"
 				},
 				{
 					"ID": "$nameFenceNorth",
 					"Type": "Base",
 					"Tilesheet": "$tilesheet",
-					"SourceRectangle": "$North 32 32"
+					"SourceRectangle": "$Postx-32 $Posty+32 32 32"
 				},
 				{
 					"ID": "$nameFencePost",
 					"Type": "Base",
 					"Tilesheet": "$tilesheet",
-					"SourceRectangle": "$Post 32 32"
+					"SourceRectangle": "$Postx $Posty 32 32"
 				},
 				{
 					"ID": "$nameFenceEast",
 					"Type": "Base",
 					"Tilesheet": "$tilesheet",
-					"SourceRectangle": "$East 32 32"
+					"SourceRectangle": "$Postx+32 $Posty 32 32"
 				},
 				{
 					"ID": "$nameFenceSouth",
 					"Type": "Base",
 					"Tilesheet": "$tilesheet",
-					"SourceRectangle": "$South 32 32"
+					"SourceRectangle": "$Postx $Posty+32 32 32"
 				}
 			]
 		}
@@ -468,7 +468,7 @@
         "ID": "FenceRotTemplate",
         "Type": "Template",
 		"Vars" : [ "$name","$direction","$tilesheet","$dirBL","$dirBR","$dirFL","$dirFR",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRot$direction",
 			"Type": "Rotation",
@@ -476,25 +476,25 @@
 			"BL": {
 				"ID": "$nameFence$dirBL",
 				"Type": "ApplyTemplate",
-				"Arguments" : ["$name","$tilesheet","$Post","$North","$East","$South","$West"],
+				"Arguments" : ["$name","$tilesheet","$Postx $Posty","$Postx-32 $Posty+32","$Postx+32 $Posty","$Postx $Posty+32","$Postx-32 $Posty"],
 				"Template" : "Fence$dirBLTemplate"
 			},
 			"BR": {
 				"ID": "$nameFence$dirBR",
 				"Type": "ApplyTemplate",
-				"Arguments" : ["$name","$tilesheet","$Post","$North","$East","$South","$West"],
+				"Arguments" : ["$name","$tilesheet","$Postx $Posty","$Postx-32 $Posty+32","$Postx+32 $Posty","$Postx $Posty+32","$Postx-32 $Posty"],
 				"Template" : "Fence$dirBRTemplate"
 			},
 			"FL": {
 				"ID": "$nameFence$dirFL",
 				"Type": "ApplyTemplate",
-				"Arguments" : ["$name","$tilesheet","$Post","$North","$East","$South","$West"],
+				"Arguments" : ["$name","$tilesheet","$Postx $Posty","$Postx-32 $Posty+32","$Postx+32 $Posty","$Postx $Posty+32","$Postx-32 $Posty"],
 				"Template" : "Fence$dirFLTemplate"
 			},
 			"FR": {
 				"ID": "$nameFence$dirFR",
 				"Type": "ApplyTemplate",
-				"Arguments" : ["$name","$tilesheet","$Post","$North","$East","$South","$West"],
+				"Arguments" : ["$name","$tilesheet","$Postx $Posty","$Postx-32 $Posty+32","$Postx+32 $Posty","$Postx $Posty+32","$Postx-32 $Posty"],
 				"Template" : "Fence$dirFRTemplate"
 			}
 		}
@@ -502,439 +502,439 @@
 	{
         "ID": "FenceRotNESTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotNES",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","NES","$tilesheet","NSW","NEW","ESW","NES",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotNEWTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotNEW",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","NEW","$tilesheet","ESW","NSW","NES","NEW",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotNSWTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotNSW",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","NSW","$tilesheet","NES","ESW","NEW","NSW",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotESWTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotESW",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","ESW","$tilesheet","NEW","NES","NSW","ESW",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotNETemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotNE",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","NE","$tilesheet","SW","NW","ES","NE",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotNSTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotNS",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","NS","$tilesheet","NS","EW","EW","NS",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotNWTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotNW",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","NW","$tilesheet","ES","SW","NE","NW",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotESTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotES",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","ES","$tilesheet","NW","NE","SW","ES",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotEWTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotEW",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","EW","$tilesheet","EW","NS","NS","EW",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotSWTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotSW",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","SW","$tilesheet","NE","ES","NW","SW",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotNTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotN",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","N","$tilesheet","S","W","E","N",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotETemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotE",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","E","$tilesheet","W","N","S","E",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotSTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotS",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","S","$tilesheet","N","E","W","S",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "FenceRotWTemplate",
         "Type": "Template",
-		"Vars" : [ "$name","$tilesheet","$Post","$North","$East","$South","$West" ],
+		"Vars" : [ "$name","$tilesheet","$Postx","$Posty" ],
 		"Sprite" : {
 			"ID": "$nameFenceRotW",
 			"Type": "ApplyTemplate",
 			"Arguments" : [ "$name","W","$tilesheet","E","S","N","W",
-					"$Post","$North","$East","$South","$West" ],
+					"$Postx","$Posty" ],
 			"Template" : "FenceRotTemplate"
 		}
 	},
 	{
         "ID": "CobbleStoneFenceRotNESW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotNESWTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotNES",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
-		"Template" : "FenceRotNEWTemplate"
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
+		"Template" : "FenceRotNESTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotNEW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotNEWTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotNSW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotNSWTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotESW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotESWTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotNE",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotNETemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotNS",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotNSTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotNW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotNWTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotES",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotESTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotEW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotEWTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotSW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotSWTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotN",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotNTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotE",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotETemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotS",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotSTemplate"
     },
 	{
         "ID": "CobbleStoneFenceRotW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["CobbleStone","terrain.png","224 384","160 416","256 384","192 416","192 384"],
+		"Arguments" : ["CobbleStone","terrain.png","224","384"],
 		"Template" : "FenceRotWTemplate"
     },
 	{
         "ID": "BlockStoneFenceRotNESW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotNESWTemplate"
     },
     {
         "ID": "BlockFenceRotNES",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
-		"Template" : "FenceRotNEWTemplate"
+		"Arguments" : ["Block","terrain.png","128","384"],
+		"Template" : "FenceRotNESTemplate"
     },
     {
         "ID": "BlockFenceRotNEW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotNEWTemplate"
     },
     {
         "ID": "BlockFenceRotNSW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
-		"Template" : "FenceRotNEWTemplate"
+		"Arguments" : ["Block","terrain.png","128","384"],
+		"Template" : "FenceRotNSWTemplate"
     },
     {
         "ID": "BlockFenceRotESW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotESWTemplate"
     },
     {
         "ID": "BlockFenceRotNE",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotNETemplate"
     },
     {
         "ID": "BlockFenceRotNS",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotNSTemplate"
     },
     {
         "ID": "BlockFenceRotNW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotNWTemplate"
     },
     {
         "ID": "BlockFenceRotES",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotESTemplate"
     },
     {
         "ID": "BlockFenceRotEW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotEWTemplate"
     },
     {
         "ID": "BlockFenceRotSW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotSWTemplate"
     },
     {
         "ID": "BlockFenceRotN",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotNTemplate"
     },
     {
         "ID": "BlockFenceRotE",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotETemplate"
     },
     {
         "ID": "BlockFenceRotS",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotSTemplate"
     },
     {
         "ID": "BlockFenceRotW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Block","terrain.png","128 384","96 416","160 384","128 416","96 384"],
+		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotWTemplate"
     },
 	{
         "ID": "WoodFenceRotNESW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotNESWTemplate"
     },
     {
         "ID": "WoodFenceRotNES",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
-		"Template" : "FenceRotNEWTemplate"
+		"Arguments" : ["Wood","terrain.png","32","384"],
+		"Template" : "FenceRotNESTemplate"
     },
     {
         "ID": "WoodFenceRotNEW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotNEWTemplate"
     },
     {
         "ID": "WoodFenceRotNSW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
-		"Template" : "FenceRotNEWTemplate"
+		"Arguments" : ["Wood","terrain.png","32","384"],
+		"Template" : "FenceRotNSWTemplate"
     },
     {
         "ID": "WoodFenceRotESW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
-		"Template" : "FenceRotNEWTemplate"
+		"Arguments" : ["Wood","terrain.png","32","384"],
+		"Template" : "FenceRotESWTemplate"
     },
     {
         "ID": "WoodFenceRotNE",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotNETemplate"
     },
     {
         "ID": "WoodFenceRotNS",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotNSTemplate"
     },
     {
         "ID": "WoodFenceRotNW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotNWTemplate"
     },
     {
         "ID": "WoodFenceRotES",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotESTemplate"
     },
     {
         "ID": "WoodFenceRotEW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotEWTemplate"
     },
     {
         "ID": "WoodFenceRotSW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotSWTemplate"
     },
     {
         "ID": "WoodFenceRotN",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotNTemplate"
     },
     {
         "ID": "WoodFenceRotE",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotETemplate"
     },
     {
         "ID": "WoodFenceRotS",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotSTemplate"
     },
     {
         "ID": "WoodFenceRotW",
 		"Type": "ApplyTemplate",
-		"Arguments" : ["Wood","terrain.png","32 384","0 416","64 384","32 416","0 384"],
+		"Arguments" : ["Wood","terrain.png","32","384"],
 		"Template" : "FenceRotWTemplate"
     },
 	

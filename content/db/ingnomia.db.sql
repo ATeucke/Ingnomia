@@ -2247,8 +2247,8 @@ INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('CobbleSt
 INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('CobbleStoneFenceEast','256 384 32 32','terrain.png');
 INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('BlockFenceNorth','96 416 32 32','terrain.png');
 INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('BlockFenceSouth','128 416 32 32','terrain.png');
-INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('CobbleStoneFenceNorth','160 416 32 32','terrain.png');
-INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('CobbleStoneFenceSouth','192 416 32 32','terrain.png');
+INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('CobbleStoneFenceNorth','192 416 32 32','terrain.png');
+INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('CobbleStoneFenceSouth','224 416 32 32','terrain.png');
 INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('WoodFenceNorth','0 416 32 32','terrain.png');
 INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('WoodFenceSouth','32 416 32 32','terrain.png');
 INSERT INTO "BaseSprites" ("ID","SourceRectangle","Tilesheet") VALUES ('RafterFR','0 448 32 32','terrain.png');
