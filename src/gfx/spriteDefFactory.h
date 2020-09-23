@@ -42,7 +42,7 @@ protected:
 
 	QHash<QString, QString> m_materialTypes;
 	QStringList m_seasons;
-	QHash<QString, SpriteDefinition*> m_complexSpriteDefs;
+	QHash<QString, ComplexSpriteDefinition*> m_complexSpriteDefs;
 
 	void loadCaches();
 	QPixmap loadTilesheet( QString tilesheet );

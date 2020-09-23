@@ -49,7 +49,7 @@ public:
 class ComplexSpriteDefinition : public SpriteDefinition
 {
 public:
-	ComplexSpriteDefinition( SDID sID, SpriteDefinition* spriteDef );
+	ComplexSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, bool debug );
 	ComplexSpriteDefinition( const ComplexSpriteDefinition& other );
 	~ComplexSpriteDefinition();
 
@@ -60,6 +60,7 @@ public:
 
 	SpriteDefinition* m_spriteDef;
 	QMap<QString, int> m_randomVariables;
+	bool m_debug;
 };
 
 class BaseSpriteDefinition : public SpriteDefinition

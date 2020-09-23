@@ -64,14 +64,15 @@ bool SpriteDefFactory::init()
 
 	for ( auto sprite : DB::selectRows( "Sprites" ) )
 	{
-		SpriteDefinition* sd = createSpriteDefinition( sprite.value( "ID" ).toString() );
+		QString id           = sprite.value( "ID" ).toString();
+		SpriteDefinition* sd = createSpriteDefinition( id );
+		m_complexSpriteDefs.insert( id, new ComplexSpriteDefinition( id, sd, true ) );
 	}
 	// wrap finished SpriteDefinitions with ComplexSpriteDefinition holding cached meta-information, e.g the randomVariables.
 
 	for ( auto spriteId : m_spriteDefs.keys() )
 	{
 		SpriteDefinition* sd = m_spriteDefs.value( spriteId );
-		m_complexSpriteDefs.insert( spriteId, new ComplexSpriteDefinition( spriteId, sd ) );
 	}
 	saveToFile( "SpriteDefinitionsFromDB" );
 	return true;
@@ -79,6 +80,7 @@ bool SpriteDefFactory::init()
 
 SpriteDefinition* SpriteDefFactory::createSpriteDefinition( QString spriteId )
 {
+
 	if ( m_spriteDefs.contains( spriteId ) )
 	{
 		SpriteDefinition* spriteDef = m_spriteDefs.value( spriteId )->copy();
@@ -269,7 +271,8 @@ bool SpriteDefFactory::saveToFile(QString filename)
 	}
 	QJsonArray sprites;
 	for ( auto sd : m_complexSpriteDefs )
-		sprites.append( sd->toJson() );
+		if (sd->m_debug)
+			sprites.append( sd->toJson() );
 
 	saveFile.write( QJsonDocument( sprites ).toJson( QJsonDocument::Indented ) );
 	qDebug() << "spritedefinitions saved as Json to " << saveFile.fileName();

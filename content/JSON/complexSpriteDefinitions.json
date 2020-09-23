@@ -125,6 +125,7 @@
     {
         "ID": "GrassSoilURampTop",
         "Type": "Combine",
+		"Debug" : "true",
         "Sprites": [
             {
                 "ID": "SoilURampTop",
@@ -758,7 +759,7 @@
 		"Template" : "FenceRotWTemplate"
     },
 	{
-        "ID": "BlockStoneFenceRotNESW",
+        "ID": "BlockFenceRotNESW",
 		"Type": "ApplyTemplate",
 		"Arguments" : ["Block","terrain.png","128","384"],
 		"Template" : "FenceRotNESWTemplate"
@@ -1000,13 +1001,6 @@
         "Tint": "0"
     },
     {
-        "ID": "CobbleStoneFencePost",
-        "Type": "Base",
-        "Tilesheet": "terrain.png",
-        "SourceRectangle": "224 384 32 32",
-        "Tint": "0"
-    },
-    {
         "ID": "CarvedStoneWallShort",
         "Type": "Base",
         "Tilesheet": "terrain.png",
@@ -1204,37 +1198,6 @@
         "Type": "Base",
         "Tilesheet": "traps_mechanism.png",
         "SourceRectangle": "0 160 32 32"
-    },
-    {
-        "ID": "WoodFenceNSW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 384 32 32"
-            },
-            {
-                "ID": "WoodFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 416 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 416 32 32"
-            }
-        ]
     },
     {
         "ID": "PlateArmorFeet",
@@ -3180,37 +3143,6 @@
         "Offset": "0 4"
     },
     {
-        "ID": "WoodFenceESW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 384 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "64 384 32 32"
-            },
-            {
-                "ID": "WoodFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "MushroomGrass3",
         "Type": "Base",
         "Tilesheet": "mushroom_biome_grass.png",
@@ -3618,13 +3550,6 @@
         "Type": "Base",
         "Tilesheet": "gnomes.png",
         "SourceRectangle": "288 64 32 32",
-        "Tint": "0"
-    },
-    {
-        "ID": "WoodFencePost",
-        "Type": "Base",
-        "Tilesheet": "terrain.png",
-        "SourceRectangle": "32 384 32 32",
         "Tint": "0"
     },
     {
@@ -4387,31 +4312,7 @@
         "SourceRectangle": "992 320 32 32",
         "Offset": "8 14"
     },
-    {
-        "ID": "WoodFenceEW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 384 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "64 384 32 32"
-            }
-        ]
-    },
+  
     {
         "ID": "Bolt",
         "Type": "Base",
@@ -4825,31 +4726,6 @@
         "SourceRectangle": "256 224 32 32"
     },
     {
-        "ID": "BlockFenceES",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 384 32 32"
-            },
-            {
-                "ID": "BlockFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "MammothFL11",
         "Type": "Base",
         "Tilesheet": "multicreatures.png",
@@ -4917,31 +4793,6 @@
         "Tint": "0"
     },
     {
-        "ID": "CobbleStoneFenceES",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "256 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "GlassFurnace",
         "Type": "Rotation",
         "BL": {
@@ -4994,25 +4845,6 @@
         ]
     },
     {
-        "ID": "WoodFenceS",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "PipeW",
         "Type": "Combine",
         "Sprites": [
@@ -5035,37 +4867,6 @@
         "Type": "Base",
         "Tilesheet": "default.png",
         "SourceRectangle": "896 288 32 32"
-    },
-    {
-        "ID": "BlockFenceESW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 384 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 384 32 32"
-            },
-            {
-                "ID": "BlockFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 416 32 32"
-            }
-        ]
     },
     {
         "ID": "SheepBlue",
@@ -5439,25 +5240,11 @@
         "Offset": "0 -4"
     },
     {
-        "ID": "BlockFencePost",
-        "Type": "Base",
-        "Tilesheet": "terrain.png",
-        "SourceRectangle": "128 384 32 32",
-        "Tint": "0"
-    },
-    {
         "ID": "UIEmptySlotHead",
         "Type": "Base",
         "Tilesheet": "weapons-armour-UI-large.png",
         "SourceRectangle": "0 160 32 32",
         "Offset": "0 -16",
-        "Tint": "0"
-    },
-    {
-        "ID": "WoodFencePost",
-        "Type": "Base",
-        "Tilesheet": "terrain.png",
-        "SourceRectangle": "32 384 32 32",
         "Tint": "0"
     },
     {
@@ -5474,25 +5261,6 @@
         "Tilesheet": "furniture.png",
         "SourceRectangle": "352 96 32 32",
         "Tint": "0"
-    },
-    {
-        "ID": "WoodFenceW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 384 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            }
-        ]
     },
     {
         "ID": "Brazier",
@@ -6778,37 +6546,6 @@
         ]
     },
     {
-        "ID": "BlockFenceNES",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 416 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 384 32 32"
-            },
-            {
-                "ID": "BlockFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "SheepGreen",
         "Type": "Base",
         "Tilesheet": "animals.png",
@@ -6852,25 +6589,6 @@
         "Tint": "0"
     },
     {
-        "ID": "BlockFenceE",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 384 32 32"
-            }
-        ]
-    },
-    {
         "ID": "EngravedBlockWall",
         "Type": "Base",
         "Tilesheet": "terrain.png",
@@ -6891,25 +6609,6 @@
         "SourceRectangle": "288 0 32 32",
         "Offset": "0 16",
         "Tint": "0"
-    },
-    {
-        "ID": "CobbleStoneFenceN",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 416 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            }
-        ]
     },
     {
         "ID": "Sabretooth2FL",
@@ -6944,31 +6643,6 @@
             "Tilesheet": "seasonaldetails.png",
             "SourceRectangle": "64 384 32 20"
         }
-    },
-    {
-        "ID": "CobbleStoneFenceSW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 416 32 32"
-            }
-        ]
     },
     {
         "ID": "BladeTrapBlade1",
@@ -7185,31 +6859,6 @@
         "Tint": "0"
     },
     {
-        "ID": "WoodFenceES",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "64 384 32 32"
-            },
-            {
-                "ID": "WoodFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "Sausage",
         "Type": "Base",
         "Tilesheet": "default.png",
@@ -7362,31 +7011,6 @@
         "Tint": "0"
     },
     {
-        "ID": "WoodFenceNW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 384 32 32"
-            },
-            {
-                "ID": "WoodFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 416 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            }
-        ]
-    },
-    {
         "ID": "SawTableRight",
         "Type": "Base",
         "Tilesheet": "default.png",
@@ -7430,25 +7054,6 @@
         "SourceRectangle": "448 0 32 32"
     },
     {
-        "ID": "BlockFenceS",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "ZygAdultBlue",
         "Type": "Rotation",
         "BL": {
@@ -7486,25 +7091,6 @@
         "Tint": "0"
     },
     {
-        "ID": "WoodFenceN",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 416 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            }
-        ]
-    },
-    {
         "ID": "OakTree27",
         "Type": "Base",
         "Tilesheet": "multitrees.png",
@@ -7535,8 +7121,7 @@
         "ID": "PlantGrowHelper3",
         "Type": "Base",
         "Tilesheet": "plants.png",
-        "SourceRectangle": "160 352 32 32",
-        "Offset": "0, 0"
+        "SourceRectangle": "160 352 32 32"
     },
     {
         "ID": "WindmillSailCloth4BL",
@@ -7905,31 +7490,6 @@
         "SourceRectangle": "352 192 32 32"
     },
     {
-        "ID": "CobbleStoneFenceNE",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 416 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "256 384 32 32"
-            }
-        ]
-    },
-    {
         "ID": "Grass6",
         "Type": "Season",
         "Autumn": {
@@ -8153,13 +7713,6 @@
             "Tilesheet": "terrain.png",
             "SourceRectangle": "64 96 32 32"
         }
-    },
-    {
-        "ID": "CobbleStoneFencePost",
-        "Type": "Base",
-        "Tilesheet": "terrain.png",
-        "SourceRectangle": "224 384 32 32",
-        "Tint": "0"
     },
     {
         "ID": "OakTree14",
@@ -9375,31 +8928,6 @@
         ]
     },
     {
-        "ID": "CobbleStoneFenceNW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 416 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            }
-        ]
-    },
-    {
         "ID": "WindmillSail3BL",
         "Type": "Frames",
         
@@ -9523,25 +9051,6 @@
         "Tilesheet": "default.png",
         "SourceRectangle": "928 32 32 32",
         "Tint": "0"
-    },
-    {
-        "ID": "CobbleStoneFenceW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            }
-        ]
     },
     {
         "ID": "Bed",
@@ -11028,13 +10537,6 @@
         "Type": "Base",
         "Tilesheet": "workshops.png",
         "SourceRectangle": "224 32 32 32",
-        "Tint": "0"
-    },
-    {
-        "ID": "BlockFencePost",
-        "Type": "Base",
-        "Tilesheet": "terrain.png",
-        "SourceRectangle": "128 384 32 32",
         "Tint": "0"
     },
     {
@@ -14770,37 +14272,6 @@
         }
     },
     {
-        "ID": "WoodFenceNES",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 416 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "64 384 32 32"
-            },
-            {
-                "ID": "WoodFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "WorkshopTable_Wheel",
         "Type": "Combine",
         "Sprites": [
@@ -15017,25 +14488,6 @@
         "Tilesheet": "plants.png",
         "SourceRectangle": "320 480 32 32",
         "Offset": "0 16"
-    },
-    {
-        "ID": "WoodFenceE",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "64 384 32 32"
-            }
-        ]
     },
     {
         "ID": "MammothFL6",
@@ -15919,31 +15371,6 @@
         "SourceRectangle": "192 128 32 32",
         "Offset": "0 -16",
         "Tint": "1"
-    },
-    {
-        "ID": "CobbleStoneFenceNS",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 416 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 416 32 32"
-            }
-        ]
     },
     {
         "ID": "PigYoung",
@@ -18485,31 +17912,6 @@
                 "Type": "Base",
                 "Tilesheet": "default.png",
                 "SourceRectangle": "288 288 32 32"
-            }
-        ]
-    },
-    {
-        "ID": "BlockFenceEW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 384 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 384 32 32"
             }
         ]
     },
@@ -22610,37 +22012,6 @@
         "SourceRectangle": "96 192 32 32"
     },
     {
-        "ID": "CobbleStoneFenceESW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "256 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "UILeatherArmorHead",
         "Type": "Base",
         "Tilesheet": "weapons-armour-UI-large.png",
@@ -22724,31 +22095,6 @@
                 }
             ]
         }
-    },
-    {
-        "ID": "WoodFenceNE",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 416 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "64 384 32 32"
-            }
-        ]
     },
     {
         "ID": "ArtificialLeftArm",
@@ -22847,37 +22193,6 @@
         "Type": "Base",
         "Tilesheet": "default.png",
         "SourceRectangle": "160 64 32 32"
-    },
-    {
-        "ID": "CobbleStoneFenceNEW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 416 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "256 384 32 32"
-            }
-        ]
     },
     {
         "ID": "RYellowFlower5",
@@ -24135,31 +23450,6 @@
         }
     },
     {
-        "ID": "BlockFenceNW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 384 32 32"
-            },
-            {
-                "ID": "BlockFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 416 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            }
-        ]
-    },
-    {
         "ID": "ChickenYoung",
         "Type": "Base",
         "Tilesheet": "animals.png",
@@ -25299,37 +24589,6 @@
         "Tint": "0"
     },
     {
-        "ID": "WoodFenceNEW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 384 32 32"
-            },
-            {
-                "ID": "WoodFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 416 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "64 384 32 32"
-            }
-        ]
-    },
-    {
         "ID": "LeatherPanel",
         "Type": "Base",
         "Tilesheet": "default.png",
@@ -25600,31 +24859,6 @@
             "Tilesheet": "seasonaldetails.png",
             "SourceRectangle": "256 160 32 20"
         }
-    },
-    {
-        "ID": "CobbleStoneFenceEW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "256 384 32 32"
-            }
-        ]
     },
     {
         "ID": "BirchTreeNoLeaves",
@@ -26130,31 +25364,6 @@
             "Tilesheet": "seasonaldetails.png",
             "SourceRectangle": "192 384 32 20"
         }
-    },
-    {
-        "ID": "BlockFenceNE",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 416 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 384 32 32"
-            }
-        ]
     },
     {
         "ID": "Beer",
@@ -28191,8 +27400,7 @@
         "ID": "PlantGrowHelper1",
         "Type": "Base",
         "Tilesheet": "plants.png",
-        "SourceRectangle": "160 288 32 32",
-        "Offset": "0, 0"
+        "SourceRectangle": "160 288 32 32"
     },
     {
         "ID": "Llama",
@@ -28356,31 +27564,6 @@
         "SourceRectangle": "64 448 32 32",
         "Offset": "0 16",
         "Tint": "0"
-    },
-    {
-        "ID": "BlockFenceSW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 384 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 416 32 32"
-            }
-        ]
     },
     {
         "ID": "ChainArmorHands",
@@ -28618,25 +27801,6 @@
         "Tilesheet": "multitrees.png",
         "SourceRectangle": "32 160 32 32",
         "Offset": "0 -8"
-    },
-    {
-        "ID": "BlockFenceN",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 416 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            }
-        ]
     },
     {
         "ID": "GrassSoilCornerRamp",
@@ -29363,25 +28527,6 @@
                 "SourceRectangle": "192 64 32 32"
             }
         }
-    },
-    {
-        "ID": "CobbleStoneFenceE",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "256 384 32 32"
-            }
-        ]
     },
     {
         "ID": "KitchenPot",
@@ -30415,31 +29560,6 @@
         "Type": "Base",
         "Tilesheet": "mushrooms.png",
         "SourceRectangle": "832 32 32 32"
-    },
-    {
-        "ID": "WoodFenceNS",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 416 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 416 32 32"
-            }
-        ]
     },
     {
         "ID": "StoolWood",
@@ -31964,25 +31084,6 @@
         "SourceRectangle": "0 384 32 32"
     },
     {
-        "ID": "CobbleStoneFenceS",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "WellTop",
         "Type": "Base",
         "Tilesheet": "default.png",
@@ -32122,31 +31223,6 @@
             "Tilesheet": "seasonaldetails.png",
             "SourceRectangle": "256 160 32 20"
         }
-    },
-    {
-        "ID": "BlockFenceNS",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 416 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 416 32 32"
-            }
-        ]
     },
     {
         "ID": "BirchTree17",
@@ -33168,31 +32244,6 @@
         "Tint": "0"
     },
     {
-        "ID": "WoodFenceSW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "WoodFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "0 384 32 32"
-            },
-            {
-                "ID": "WoodFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 384 32 32"
-            },
-            {
-                "ID": "WoodFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "32 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "StarEngravedBlockWallShort",
         "Type": "Base",
         "Tilesheet": "terrain.png",
@@ -33320,37 +32371,6 @@
         "Tint": "0"
     },
     {
-        "ID": "CobbleStoneFenceNES",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 416 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "256 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "Grass",
         "Type": "Random",
         "Var": "R0",
@@ -33462,25 +32482,6 @@
         }
     },
     {
-        "ID": "BlockFenceW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 384 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            }
-        ]
-    },
-    {
         "ID": "AppleTreeMiddleWithFruit",
         "Type": "Combine",
         "Sprites": [
@@ -33511,37 +32512,6 @@
         "Tilesheet": "gnomes.png",
         "SourceRectangle": "256 64 32 32",
         "Tint": "0"
-    },
-    {
-        "ID": "CobbleStoneFenceNSW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "CobbleStoneFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 416 32 32"
-            },
-            {
-                "ID": "CobbleStoneFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "224 384 32 32"
-            },
-            {
-                "ID": "CobbleStoneFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "192 416 32 32"
-            }
-        ]
     },
     {
         "ID": "Chest",
@@ -33606,42 +32576,10 @@
         "SourceRectangle": "96 64 32 32"
     },
     {
-        "ID": "BlockFenceNSW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 384 32 32"
-            },
-            {
-                "ID": "BlockFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 416 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceSouth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 416 32 32"
-            }
-        ]
-    },
-    {
         "ID": "PlantGrowHelper2",
         "Type": "Base",
         "Tilesheet": "plants.png",
-        "SourceRectangle": "160 320 32 32",
-        "Offset": "0, 0"
+        "SourceRectangle": "160 320 32 32"
     },
     {
         "ID": "Mold",
@@ -37618,37 +36556,6 @@
         "Tilesheet": "workshops.png",
         "SourceRectangle": "320 224 32 32",
         "Tint": "0"
-    },
-    {
-        "ID": "BlockFenceNEW",
-        "Type": "Combine",
-        "Tint": "0",
-        "Sprites": [
-            {
-                "ID": "BlockFenceWest",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 384 32 32"
-            },
-            {
-                "ID": "BlockFenceNorth",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "96 416 32 32"
-            },
-            {
-                "ID": "BlockFencePost",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "128 384 32 32"
-            },
-            {
-                "ID": "BlockFenceEast",
-                "Type": "Base",
-                "Tilesheet": "terrain.png",
-                "SourceRectangle": "160 384 32 32"
-            }
-        ]
     },
     {
         "ID": "MushroomGrass2",

@@ -622,11 +622,12 @@ QJsonObject EffectSpriteDefinition::toJson()
 
 /******************************** ComplexSpriteDefinition  ********************************************/
 
-ComplexSpriteDefinition::ComplexSpriteDefinition( SDID sID, SpriteDefinition* spriteDef ) :
+ComplexSpriteDefinition::ComplexSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, bool debug ) :
 	SpriteDefinition( sID )
 {
 	m_type      = "ComplexSprite";
 	m_spriteDef = spriteDef->copy();
+	m_debug     = debug;
 
 	//Normalize the random-variables  to R0,R1,...
 	m_randomVariables = m_spriteDef->getRandomVariables(); 
@@ -646,6 +647,7 @@ ComplexSpriteDefinition::ComplexSpriteDefinition( const ComplexSpriteDefinition&
 {
 	m_spriteDef = other.m_spriteDef->copy();
 	m_randomVariables.insert(other.m_randomVariables);
+	m_debug = other.m_debug;
 }
 
 ComplexSpriteDefinition::~ComplexSpriteDefinition()

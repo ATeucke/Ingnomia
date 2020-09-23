@@ -33,7 +33,11 @@ bool JsonSpriteDefFactory::init()
 	for ( auto spriteDef : m_jsonDefs )
 	{
 		QString id = spriteDef.value( "ID" ).toString();
-		m_complexSpriteDefs.insert( id, fromJson( spriteDef ) );
+		bool debug = false;
+		if ( spriteDef.contains( "Debug" ) && spriteDef.value( "Debug" ).toString() == "true" )
+			debug = true;
+		if ( spriteDef.value( "Type" ) != "Template")
+			m_complexSpriteDefs.insert( id, new ComplexSpriteDefinition( id, fromJson( spriteDef ), debug ) );
 	}
 	saveToFile("SpriteDefinitionsFromJson");
   
