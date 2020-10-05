@@ -20,6 +20,7 @@
 #include "../gfx/sprite.h"
 
 #include <QMap>
+#include <QSet>
 #include <QPixmap>
 #include <QString>
 
@@ -34,8 +35,10 @@ public:
 	virtual ~SpriteDefinition();
 
 	virtual SpriteDefinition* copy()                                                              = 0;
-	virtual Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random ) = 0;
-	virtual QMap<QString, int> getRandomVariables()                                              = 0;
+	virtual QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random )    = 0;
+	virtual QMap<QString, int> getRandomVariables()                                               = 0;
+	virtual int getAnimFrames()                                                                   = 0;
+	virtual void getTypes( QSet<QString>* types )                                                 = 0;
 	virtual QJsonObject toJson();
 	virtual QString toString();
 
@@ -54,13 +57,17 @@ public:
 	~ComplexSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
 	virtual QMap<QString, int> getRandomVariables();
+	virtual int getAnimFrames();
+	virtual void getTypes( QSet<QString>* types );
 	QJsonObject toJson();
 
 	SpriteDefinition* m_spriteDef;
 	QMap<QString, int> m_randomVariables;
+	QSet<QString> m_types;
 	bool m_debug;
+	int m_animFrames = 1;
 };
 
 class BaseSpriteDefinition : public SpriteDefinition
@@ -71,8 +78,10 @@ public:
 	~BaseSpriteDefinition();
 	
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
-	virtual QMap<QString, int> getRandomVariables(); 
+	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
+	virtual QMap<QString, int> getRandomVariables();
+	virtual int getAnimFrames();
+	virtual void getTypes( QSet<QString>* types );
 	QJsonObject toJson();
 
 	QString m_tilesheet = "";
@@ -90,7 +99,10 @@ public:
 	~BranchingSpriteDefinition();
 
 	virtual void add( QString key, SpriteDefinition* spriteDef );
-	virtual QMap<QString, int> getRandomVariables(); 
+	virtual QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
+	virtual QMap<QString, int> getRandomVariables();
+	virtual int getAnimFrames();
+	virtual void getTypes( QSet<QString>* types );
 	virtual QJsonObject toJson();
 	void replaceVariable( QString replace, QString with );
 
@@ -106,7 +118,6 @@ public:
 	~SeasonSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
 
 	QJsonObject toJson();
 
@@ -122,7 +133,6 @@ public:
 	~RotationSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
 	QJsonObject toJson();
 };
 
@@ -134,7 +144,7 @@ public:
 	~FramesSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite*createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
+	virtual int getAnimFrames();
 };
 
 class MaterialSpriteDefinition : public BranchingSpriteDefinition
@@ -145,7 +155,6 @@ public:
 	~MaterialSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
 
 };
 
@@ -157,7 +166,7 @@ public:
 	~TypeSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString,QString> parameters, QMap<QString,int> random );
+	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
 
 	QHash<QString, QString> m_materialTypes;
 };
@@ -171,10 +180,13 @@ public:
 	~CombineSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
+	void add( QString key, SpriteDefinition* spriteDef );
+	virtual int getAnimFrames();
 	QJsonObject toJson();
 
 	QList<QString> m_seasons;
+	int m_frames = 0;
 };
 
 class RandomSpriteDefinition : public BranchingSpriteDefinition
@@ -185,14 +197,11 @@ public:
 	~RandomSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
 	void add( QString key, SpriteDefinition* spriteDef );
-	virtual QMap<QString, int> getRandomVariables(); 
+	virtual QMap<QString, int> getRandomVariables();
 	QJsonObject toJson();
 
-	void replaceVariable( QString replace, QString with );
-
-	QList<SpriteDefinition*> m_randomSprites;
 	QList<int> m_weights;
 	int m_sum = 0;
 };
@@ -204,7 +213,9 @@ public:
 	LinearSpriteDefinition( const LinearSpriteDefinition& other );
 	~LinearSpriteDefinition();
 
-	virtual QMap<QString, int> getRandomVariables(); 
+	virtual QMap<QString, int> getRandomVariables();
+	virtual int getAnimFrames();
+	virtual void getTypes( QSet<QString>* types );
 	QJsonObject toJson();
 
 	void replaceVariable( QString replace, QString with );
@@ -221,7 +232,8 @@ public:
 	~TintSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QPixmap& applyTint( QPixmap& pixmap, QString tint );
 	QJsonObject toJson();
 
 	void replaceVariable( QString replace, QString with );
@@ -238,8 +250,10 @@ public:
 	~EffectSpriteDefinition();
 
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
 	QJsonObject toJson();
+
+	QPixmap& applyEffect( QPixmap& pixmap, QString effect );
 
 	QString m_effect;
 };
@@ -252,9 +266,11 @@ public:
 	TemplateSpriteDefinition( const TemplateSpriteDefinition& other );
 	~TemplateSpriteDefinition();
 
-	virtual QMap<QString, int> getRandomVariables(); 
+	virtual QMap<QString, int> getRandomVariables();
+	virtual int getAnimFrames();
 	SpriteDefinition* copy();
-	Sprite* createSprite( QMap<QString, QString> parameters, QMap<QString, int> random );
+	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
+	virtual void getTypes( QSet<QString>* types );
 	QJsonObject toJson();
 
 	QList<QString> m_variables;

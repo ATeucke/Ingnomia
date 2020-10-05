@@ -38,7 +38,7 @@ public:
 	virtual ~Sprite();
 
 	virtual QPixmap& pixmap( QString season, unsigned char rotation, unsigned char animationStep ) = 0;
-	virtual void setPixmap( QPixmap pm, QString season, unsigned char rotation )                   = 0;
+	virtual void setPixmap( QPixmap pm, QString season, unsigned char rotation, unsigned char animationStep ) = 0;
 
 	virtual void applyEffect( QString effect )                  = 0;
 	virtual void applyTint( QString tint, QString materialSID ) = 0;
@@ -65,7 +65,7 @@ public:
 	~SpritePixmap();
 
 	QPixmap& pixmap( QString season, unsigned char rotation, unsigned char animationStep );
-	void setPixmap( QPixmap pm, QString season, unsigned char rotation );
+	void setPixmap( QPixmap pm, QString season, unsigned char rotation, unsigned char animationStep );
 
 	void applyEffect( QString effect );
 	void applyTint( QString tint, QString materialSID );
@@ -83,7 +83,7 @@ public:
 	~SpriteSeasons();
 
 	QPixmap& pixmap( QString season, unsigned char rotation, unsigned char animationStep );
-	void setPixmap( QPixmap pm, QString season, unsigned char rotation );
+	void setPixmap( QPixmap pm, QString season, unsigned char rotation, unsigned char animationStep );
 
 	void applyEffect( QString effect );
 	void applyTint( QString tint, QString materialSID );
@@ -101,7 +101,7 @@ public:
 	~SpriteRotations();
 
 	QPixmap& pixmap( QString season, unsigned char rotation, unsigned char animationStep );
-	void setPixmap( QPixmap pm, QString season, unsigned char rotation );
+	void setPixmap( QPixmap pm, QString season, unsigned char rotation, unsigned char animationStep );
 
 	void applyEffect( QString effect );
 	void applyTint( QString tint, QString materialSID );
@@ -119,7 +119,7 @@ public:
 	~SpriteFrames();
 
 	QPixmap& pixmap( QString season, unsigned char rotation, unsigned char animationStep );
-	void setPixmap( QPixmap pm, QString season, unsigned char rotation );
+	void setPixmap( QPixmap pm, QString season, unsigned char rotation, unsigned char animationStep );
 
 	void applyEffect( QString effect );
 	void applyTint( QString tint, QString materialSID );

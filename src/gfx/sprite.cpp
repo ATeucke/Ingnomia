@@ -93,7 +93,7 @@ QPixmap& SpritePixmap::pixmap( QString season, unsigned char rotation, unsigned 
 	return m_pixmap;
 }
 
-void SpritePixmap::setPixmap( QPixmap pm, QString season, unsigned char rotation )
+void SpritePixmap::setPixmap( QPixmap pm, QString season, unsigned char rotation, unsigned char animationStep )
 {
 	m_pixmap = pm;
 }
@@ -211,9 +211,9 @@ QPixmap& SpriteSeasons::pixmap( QString season, unsigned char rotation, unsigned
 	return m_sprites[season]->pixmap( season, rotation, animationStep );
 }
 
-void SpriteSeasons::setPixmap( QPixmap pm, QString season, unsigned char rotation )
+void SpriteSeasons::setPixmap( QPixmap pm, QString season, unsigned char rotation, unsigned char animationStep )
 {
-	m_sprites[season]->setPixmap( pm, season, rotation );
+	m_sprites[season]->setPixmap( pm, season, rotation, animationStep );
 }
 
 void SpriteSeasons::applyEffect( QString effect )
@@ -263,9 +263,9 @@ QPixmap& SpriteRotations::pixmap( QString season, unsigned char rotation, unsign
 	return m_sprites[rotation]->pixmap( season, rotation, animationStep );
 }
 
-void SpriteRotations::setPixmap( QPixmap pm, QString season, unsigned char rotation )
+void SpriteRotations::setPixmap( QPixmap pm, QString season, unsigned char rotation, unsigned char animationStep )
 {
-	m_sprites[rotation]->setPixmap( pm, season, rotation );
+	m_sprites[rotation]->setPixmap( pm, season, rotation, animationStep );
 }
 
 void SpriteRotations::applyEffect( QString effect )
@@ -315,9 +315,9 @@ QPixmap& SpriteFrames::pixmap( QString season, unsigned char rotation, unsigned 
 	return m_sprites[animationStep % m_sprites.size()]->pixmap( season, rotation, animationStep );
 }
 
-void SpriteFrames::setPixmap( QPixmap pm, QString season, unsigned char rotation )
+void SpriteFrames::setPixmap( QPixmap pm, QString season, unsigned char rotation, unsigned char animationStep )
 {
-	m_sprites[0]->setPixmap( pm, season, rotation );
+	m_sprites[animationStep]->setPixmap( pm, season, rotation, animationStep );
 }
 
 void SpriteFrames::applyEffect( QString effect )
