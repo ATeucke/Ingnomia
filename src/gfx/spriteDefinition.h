@@ -49,12 +49,12 @@ public:
 	QString m_type   = "";
 };
 
-class ComplexSpriteDefinition : public SpriteDefinition
+class CachedSpriteDefinition : public SpriteDefinition
 {
 public:
-	ComplexSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, bool debug );
-	ComplexSpriteDefinition( const ComplexSpriteDefinition& other );
-	~ComplexSpriteDefinition();
+	CachedSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, bool debug );
+	CachedSpriteDefinition( const CachedSpriteDefinition& other );
+	~CachedSpriteDefinition();
 
 	SpriteDefinition* copy();
 	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
@@ -256,23 +256,4 @@ public:
 	QPixmap& applyEffect( QPixmap& pixmap, QString effect );
 
 	QString m_effect;
-};
-
-
-class TemplateSpriteDefinition : public SpriteDefinition
-{
-public:
-	TemplateSpriteDefinition( SDID sID, QJsonObject spriteDef, QList<QString> variables );
-	TemplateSpriteDefinition( const TemplateSpriteDefinition& other );
-	~TemplateSpriteDefinition();
-
-	virtual QMap<QString, int> getRandomVariables();
-	virtual int getAnimFrames();
-	SpriteDefinition* copy();
-	QPixmap& getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random );
-	virtual void getTypes( QSet<QString>* types );
-	QJsonObject toJson();
-
-	QList<QString> m_variables;
-	QJsonObject m_template;
 };

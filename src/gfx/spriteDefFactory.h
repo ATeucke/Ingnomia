@@ -33,6 +33,9 @@ private:
 	QString m_currentMaterial = "0";
 
 	void scanTable( QString table );
+	Sprite* createSprite( CachedSpriteDefinition* spritedef, QMap<QString, QString> parameters, QMap<QString, int> random );
+	Sprite* createSpriteRotations( CachedSpriteDefinition* spritedef, QMap<QString, QString> parameters, QMap<QString, int> random );
+	Sprite* createSpriteFrames( CachedSpriteDefinition* spritedef, QMap<QString, QString> parameters, QMap<QString, int> random );
 	SpriteDefinition* createSpriteDefinition( QString spriteId );
 	BaseSpriteDefinition* createBaseSpriteDefinition( QString spriteId, QVariantMap row );
 	SpriteDefinition* createBranchingSpriteDefinition( QString id, QString table );
@@ -42,7 +45,13 @@ protected:
 
 	QHash<QString, QString> m_materialTypes;
 	QStringList m_seasons;
-	QHash<QString, ComplexSpriteDefinition*> m_complexSpriteDefs;
+	QStringList m_rotations = {
+		"FR",
+		"FL",
+		"BL",
+		"BR"
+	};
+	QHash<QString, CachedSpriteDefinition*> m_cachedSpriteDefs;
 
 	void loadCaches();
 	QPixmap loadTilesheet( QString tilesheet );
@@ -56,5 +65,6 @@ public:
 
 
 	bool init();
+	Sprite* createSprite( CachedSpriteDefinition* spritedef, QMap<QString, QString> parameters );
 	bool saveToFile( QString filename );
 };

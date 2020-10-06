@@ -16,9 +16,11 @@
 #include <QJsonDocument>
 #include "jsonSpriteDefFactory.h"
 
+
+
+
 JsonSpriteDefFactory::JsonSpriteDefFactory()
 {
-	m_rotations = {"BL","BR","FL","FR"};
 }
 
 JsonSpriteDefFactory::~JsonSpriteDefFactory()
@@ -37,10 +39,16 @@ bool JsonSpriteDefFactory::init()
 		if ( spriteDef.contains( "Debug" ) && spriteDef.value( "Debug" ).toString() == "true" )
 			debug = true;
 		if ( spriteDef.value( "Type" ) != "Template")
-			m_complexSpriteDefs.insert( id, new ComplexSpriteDefinition( id, fromJson( spriteDef ), debug ) );
+			m_cachedSpriteDefs.insert( id, new CachedSpriteDefinition( id, fromJson( spriteDef ), debug ) );
 	}
 	saveToFile("SpriteDefinitionsFromJson");
   
+	for ( auto spriteDef : m_cachedSpriteDefs )
+	{
+		QMap<QString, QString> parameters;
+		createSprite( spriteDef, parameters );
+	}
+
 	return true;  
 }
 
@@ -65,8 +73,6 @@ SpriteDefinition* JsonSpriteDefFactory::fromJson( QJsonObject jsonSpriteDef )
 		spriteDef = createSeasonSpriteDef( jsonSpriteDef );
 	else if ( "Random" == type )
 		spriteDef = createRandomSpriteDef( jsonSpriteDef );
-	else if ( "Template" == type )
-		spriteDef = createTemplateSpriteDef( jsonSpriteDef );
 	else if ( "ApplyTemplate" == type )
 		spriteDef = createApplyTemplateSpriteDef( jsonSpriteDef );
 	else
@@ -100,13 +106,12 @@ SpriteDefinition* JsonSpriteDefFactory::createApplyTemplateSpriteDef( QJsonObjec
 		arguments.append( var.toString() );
 
 	QString templateID = jsonSpriteDef.value( "Template" ).toString();
-	if ( !m_jsonDefs.contains( templateID ) )
+	if ( !m_templates.contains( templateID ) )
 	{
 		qDebug() << "***ERROR*** no template with id " << templateID;
 		return NULL; 
 	}
-	QJsonObject templateJson = m_jsonDefs.value( templateID );
-	TemplateSpriteDefinition* sp = createTemplateSpriteDef( templateJson );
+	SpriteDefinitionTemplate* sp = m_templates.value( templateID );
 
 	if ( sp->m_variables.size() != arguments.size() )
 	{
@@ -114,7 +119,7 @@ SpriteDefinition* JsonSpriteDefFactory::createApplyTemplateSpriteDef( QJsonObjec
 		return NULL;  
 	}
 
-	QJsonObject defJson = sp->m_template;
+	QJsonObject defJson = QJsonObject( sp->m_template);
 	
 	for ( int i = 0; i < arguments.size(); i++ )
 	{
@@ -126,9 +131,8 @@ SpriteDefinition* JsonSpriteDefFactory::createApplyTemplateSpriteDef( QJsonObjec
 	return fromJson( defJson );
 }
 
-TemplateSpriteDefinition* JsonSpriteDefFactory::createTemplateSpriteDef( QJsonObject jsonSpriteDef )
+void JsonSpriteDefFactory::createSpriteDefTemplate( QJsonObject jsonSpriteDef )
 {
-
 	QString id                 = jsonSpriteDef.value( "ID" ).toString();
 	QJsonArray vars            = jsonSpriteDef.value( "Vars" ).toArray();
 	QJsonObject sprite         = jsonSpriteDef.value( "Sprite" ).toObject();
@@ -137,9 +141,8 @@ TemplateSpriteDefinition* JsonSpriteDefFactory::createTemplateSpriteDef( QJsonOb
 	for ( auto var : vars )
 		variables.append( var.toString() );
 
-	TemplateSpriteDefinition* sp = new TemplateSpriteDefinition( id, sprite, variables );
+	m_templates.insert(id, new SpriteDefinitionTemplate( id, sprite, variables ));
 
-	return sp;
 }
 
 
@@ -307,8 +310,14 @@ bool JsonSpriteDefFactory::loadSpriteDefinitions()
 		for ( auto def : sd.array() )
 		{
 			auto spriteDef = def.toObject();
-			if ( spriteDef.contains(ID))
-				m_jsonDefs.insert( spriteDef.value( ID ).toString(), spriteDef );
+			if ( spriteDef.contains( ID ) )
+			{
+				QString id = spriteDef.value( ID ).toString();
+				if ( spriteDef.value( "Type" ).toString() == "Template" )
+					createSpriteDefTemplate( spriteDef );
+				else
+					m_jsonDefs.insert( id, spriteDef );
+			}
 			else
 				qDebug() << "***ERROR*** no id  for " << spriteDef;
 		}
@@ -351,3 +360,26 @@ QJsonArray JsonSpriteDefFactory::jsonReplace( QJsonArray json, QString before, Q
 
 	return json;
 }
+
+
+
+/******************************** SpriteDefinitionTemplate  ********************************************/
+
+SpriteDefinitionTemplate::SpriteDefinitionTemplate( SDID sID, QJsonObject spriteDef, QList<QString> variables ) 
+{
+	m_sID       = sID;
+	m_variables = variables;
+	m_template  = spriteDef ;
+}
+
+SpriteDefinitionTemplate::SpriteDefinitionTemplate( const SpriteDefinitionTemplate& other ) 
+{
+	m_sID = other.m_sID;
+	m_variables.append( other.m_variables );
+	m_template = QJsonObject( other.m_template );
+}
+
+SpriteDefinitionTemplate::~SpriteDefinitionTemplate()
+{
+}
+

@@ -47,9 +47,9 @@ void SpriteDefinition::replaceVariable( QString replace, QString with )
 }
 
 
-/******************************** ComplexSpriteDefinition  ********************************************/
+/******************************** CachedSpriteDefinition  ********************************************/
 
-ComplexSpriteDefinition::ComplexSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, bool debug ) :
+CachedSpriteDefinition::CachedSpriteDefinition( SDID sID, SpriteDefinition* spriteDef, bool debug ) :
 	SpriteDefinition( sID )
 {
 	m_type      = "ComplexSprite";
@@ -66,9 +66,12 @@ ComplexSpriteDefinition::ComplexSpriteDefinition( SDID sID, SpriteDefinition* sp
 	}
 	m_randomVariables.~QMap();
 	m_randomVariables = m_spriteDef->getRandomVariables();
+
+	getTypes( &m_types );
+	m_animFrames = m_spriteDef->getAnimFrames();
 }
 
-ComplexSpriteDefinition::ComplexSpriteDefinition( const ComplexSpriteDefinition& other ) :
+CachedSpriteDefinition::CachedSpriteDefinition( const CachedSpriteDefinition& other ) :
 	SpriteDefinition( other )
 {
 	m_spriteDef = other.m_spriteDef->copy();
@@ -76,38 +79,39 @@ ComplexSpriteDefinition::ComplexSpriteDefinition( const ComplexSpriteDefinition&
 	m_debug = other.m_debug;
 }
 
-ComplexSpriteDefinition::~ComplexSpriteDefinition()
+CachedSpriteDefinition::~CachedSpriteDefinition()
 {
 	m_spriteDef->~SpriteDefinition();
 	m_randomVariables.~QMap();
 }
 
-SpriteDefinition* ComplexSpriteDefinition::copy()
+SpriteDefinition* CachedSpriteDefinition::copy()
 {
-	return &ComplexSpriteDefinition( *this );
+	return &CachedSpriteDefinition( *this );
 }
 
-QPixmap& ComplexSpriteDefinition::getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random )
+QPixmap& CachedSpriteDefinition::getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random )
 {
 	return m_spriteDef->getPixmap( parameters, random );
 }
 
-QMap<QString, int> ComplexSpriteDefinition::getRandomVariables()
+
+QMap<QString, int> CachedSpriteDefinition::getRandomVariables()
 {
 	return m_randomVariables;
 }
 
-int ComplexSpriteDefinition::getAnimFrames()
+int CachedSpriteDefinition::getAnimFrames()
 {
 	return m_animFrames;
 }
 
-void ComplexSpriteDefinition::getTypes( QSet<QString>* types )
+void CachedSpriteDefinition::getTypes( QSet<QString>* types )
 {
 	m_spriteDef->getTypes( types );
 }
 
-QJsonObject ComplexSpriteDefinition::toJson()
+QJsonObject CachedSpriteDefinition::toJson()
 {
 	auto json = m_spriteDef->toJson();
 	return json;
@@ -746,8 +750,6 @@ QPixmap& EffectSpriteDefinition::applyEffect( QPixmap& pixmap, QString effect )
 		{
 			for ( int x = 0; x < 32; ++x )
 			{
-				if ( y + 16 > 63 )
-					qDebug() << "SpritePixmap::applyEffect 1" << m_sID;
 				tmp.setPixelColor( x, y, img.pixelColor( x, y + 16 ) );
 			}
 		}
@@ -758,73 +760,10 @@ QPixmap& EffectSpriteDefinition::applyEffect( QPixmap& pixmap, QString effect )
 		{
 			for ( int x = 0; x < 32; ++x )
 			{
-				if ( y > 63 )
-					qDebug() << "SpritePixmap::applyEffect 2" << m_sID;
 				img.setPixelColor( x, y + 16, tmp.pixelColor( x, y ) );
 			}
 		}
 		QPixmap rot90 = QPixmap::fromImage( img );
 		return rot90;
 	}
-}
-
-
-
-/******************************** TemplateSpriteDefinition  ********************************************/
-
-TemplateSpriteDefinition::TemplateSpriteDefinition( SDID sID, QJsonObject spriteDef, QList<QString> variables ) :
-	SpriteDefinition(sID)
-{
-	m_type      = "Template";
-	m_variables = variables;
-	m_template  = QJsonObject(spriteDef);
-}
-
-TemplateSpriteDefinition::TemplateSpriteDefinition( const TemplateSpriteDefinition& other ) :
-	SpriteDefinition( other )
-{
-	m_variables.append(other.m_variables);
-	m_template = QJsonObject(other.m_template);
-}
-
-TemplateSpriteDefinition::~TemplateSpriteDefinition()
-{
-}
-
-QMap<QString, int> TemplateSpriteDefinition::getRandomVariables()
-{
-	return QMap<QString, int>();
-}
-
-int TemplateSpriteDefinition::getAnimFrames()
-{
-	return 0;
-}
-
-SpriteDefinition* TemplateSpriteDefinition::copy()
-{
-	return &TemplateSpriteDefinition( *this );
-}
-
-QPixmap& TemplateSpriteDefinition::getPixmap( QMap<QString, QString> parameters, QMap<QString, int> random )
-{
-	return nullptr;
-}
-
-void TemplateSpriteDefinition::getTypes( QSet<QString>* types )
-{
-	types->insert( m_type );
-}
-
-QJsonObject TemplateSpriteDefinition::toJson()
-{
-
-	QJsonObject json = SpriteDefinition::toJson();
-
-	QJsonArray vars;
-	for ( auto w : m_variables )
-		vars.append( w );
-	json.insert( "3_Vars", vars );
-	json.insert( "Sprite", m_template );
-	return json;
 }

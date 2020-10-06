@@ -11,13 +11,24 @@
 #include <QVector>
 
 
+class SpriteDefinitionTemplate
+{
+public:
+	SpriteDefinitionTemplate( QString sID, QJsonObject jsonTemplate, QList<QString> variables );
+	SpriteDefinitionTemplate( const SpriteDefinitionTemplate& other );
+	~SpriteDefinitionTemplate();
+
+	QString m_sID;
+	QList<QString> m_variables;
+	QJsonObject m_template;
+};
 
 class JsonSpriteDefFactory : public SpriteDefFactory
 {
 private:
 
-	QList<QString> m_rotations;
 	QHash<QString, QJsonObject> m_jsonDefs;
+	QHash<QString, SpriteDefinitionTemplate*> m_templates;
 	 
 
 	bool loadSpriteDefinitions();
@@ -26,9 +37,9 @@ private:
 	QJsonArray jsonReplace( QJsonArray json, QString before, QString after );
 	SpriteDefinition* fromJson( QJsonObject jsonSpriteDef );
 
-	SpriteDefinition* createApplyTemplateSpriteDef( QJsonObject jsonSpriteDef );
+	void createSpriteDefTemplate( QJsonObject jsonSpriteDef ); 
 
-	TemplateSpriteDefinition* createTemplateSpriteDef( QJsonObject jsonSpriteDef );
+	SpriteDefinition* createApplyTemplateSpriteDef( QJsonObject jsonSpriteDef );
 
 	SpriteDefinition* createRandomSpriteDef( QJsonObject jsonSpriteDef );
 

@@ -30,7 +30,7 @@ void SpriteDefFactory::loadCaches()
 	m_spriteTable.clear();
 	m_baseSpriteDefs.clear();
 	m_spriteDefs.clear();
-	m_complexSpriteDefs.clear();
+	m_cachedSpriteDefs.clear();
 	m_tilesheets.clear();
 
 	m_seasons = DB::ids( "Seasons" );
@@ -66,17 +66,77 @@ bool SpriteDefFactory::init()
 	{
 		QString id           = sprite.value( "ID" ).toString();
 		SpriteDefinition* sd = createSpriteDefinition( id );
-		m_complexSpriteDefs.insert( id, new ComplexSpriteDefinition( id, sd, true ) );
+		m_cachedSpriteDefs.insert( id, new CachedSpriteDefinition( id, sd, true ) );
 	}
-	// wrap finished SpriteDefinitions with ComplexSpriteDefinition holding cached meta-information, e.g the randomVariables.
+	// wrap finished SpriteDefinitions with CachedSpriteDefinition holding cached meta-information, e.g the randomVariables.
 
-	for ( auto spriteId : m_spriteDefs.keys() )
-	{
-		SpriteDefinition* sd = m_spriteDefs.value( spriteId );
-	}
 	saveToFile( "SpriteDefinitionsFromDB" );
+
+
 	return true;
 }
+
+
+Sprite* SpriteDefFactory::createSprite( CachedSpriteDefinition* spritedef, QMap<QString, QString> parameters )
+{
+	QMap<QString, int> random;
+
+	for ( auto iter = spritedef->m_randomVariables.constBegin(); iter != spritedef->m_randomVariables.constEnd(); ++iter )
+		random.insert( iter.key(), rand() % iter.value() );
+
+	return createSprite( spritedef, parameters, random );
+}
+
+
+Sprite* SpriteDefFactory::createSprite( CachedSpriteDefinition* spritedef,  QMap<QString, QString> parameters, QMap<QString, int> random )
+{
+
+	if ( !spritedef->m_types.contains( "SeasonSprite" ) )
+		return createSpriteRotations( spritedef, parameters, random );
+
+	SpriteSeasons* ss = new SpriteSeasons;
+
+	for ( auto season : m_seasons )
+	{
+		parameters.insert( "Season", season );
+		ss->m_sprites.insert( season, createSpriteRotations( spritedef, parameters, random ) );
+	}
+	return ss;
+}
+
+
+Sprite* SpriteDefFactory::createSpriteRotations( CachedSpriteDefinition* spritedef, QMap<QString, QString> parameters, QMap<QString, int> random )
+{
+	if ( !spritedef->m_types.contains( "RotationSprite" ) )
+		return createSpriteFrames( spritedef, parameters, random );
+
+	SpriteRotations* sr = new SpriteRotations;
+
+	for ( auto rotation : m_rotations )
+	{
+		parameters.insert( "Rotation", rotation );
+		sr->m_sprites.push_back( createSpriteFrames( spritedef , parameters, random) );
+	}
+	return sr;
+}
+
+Sprite* SpriteDefFactory::createSpriteFrames( CachedSpriteDefinition* spritedef, QMap<QString, QString> parameters, QMap<QString, int> random )
+{
+	if ( !spritedef->m_types.contains( "FramesSprite" ) )
+		return new SpritePixmap( spritedef->getPixmap( parameters, random ) );
+
+	SpriteFrames* sf = new SpriteFrames;
+
+	int anim = spritedef->m_animFrames;
+	for ( int i = 0; i < anim; i++ )
+	{
+		parameters.insert( "Frame", QString( 'a' + i ) );
+		SpritePixmap* sp = new SpritePixmap( spritedef->getPixmap( parameters, random ) );
+		sf->m_sprites.push_back( sp );
+	}
+	return sf;
+}
+
 
 SpriteDefinition* SpriteDefFactory::createSpriteDefinition( QString spriteId )
 {
@@ -270,7 +330,7 @@ bool SpriteDefFactory::saveToFile(QString filename)
 		return false;
 	}
 	QJsonArray sprites;
-	for ( auto sd : m_complexSpriteDefs )
+	for ( auto sd : m_cachedSpriteDefs )
 		if (sd->m_debug)
 			sprites.append( sd->toJson() );
 
